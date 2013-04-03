@@ -54,11 +54,9 @@ class Region(Configurable):
         return (lower, upper)
 
     def plot_boundaries(self):
-        ax = self.config.ax
         # FIXME: option to draw only relevant boundaries
-        xs = numpy.linspace(*self.config.xlim)
         for ineq in self.inequalities:
-            ineq.plot_boundary(ax, xs)
+            ineq.plot_boundary()
 
     def plot_region(self):
         ax = self.config.ax
