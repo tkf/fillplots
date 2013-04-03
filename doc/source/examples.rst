@@ -9,3 +9,6 @@ Examples
 
 .. plot:: examples/config_inheritance.py
    :include-source:
+
+.. plot:: examples/switching.py
+   :include-source:

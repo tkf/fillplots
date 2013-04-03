@@ -32,6 +32,7 @@ class YFunctionInequality(BaseInequality):
         return numpy.ma.array(self._func(xs), mask=xs.mask)
 
     def plot_boundary(self, ax, xs):
+        # FIXME: load `xs` and `ax` from self.config
         ax.plot(xs, self._masked_y(xs), **self.config.line_args)
 
 
@@ -41,7 +42,7 @@ class XConstInequality(BaseInequality):
         super(XConstInequality, self).__init__(config, *args, **kwds)
         self.x = x
 
-    def plot_boundary(self, ax):
+    def plot_boundary(self, ax, _):
         ax.axvline(self.x, **self.config.line_args)
 
 
