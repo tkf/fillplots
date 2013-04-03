@@ -1,1 +1,1 @@
-from .coloring import Coloring
+from .api import *

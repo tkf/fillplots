@@ -1,0 +1,28 @@
+from .core import Config
+from . import coloring
+
+
+class Coloring(coloring.Coloring):
+
+    def __init__(self, regions, xlim=(-10, 10), ylim=(-10, 10)):
+        config = Config(xlim=xlim, ylim=ylim)
+        super(Coloring, self).__init__(config, regions)
+
+
+def plot_inequalities(regions, *args, **kwds):
+    """
+    Initialize a coloring object with a list of regions.
+
+    :type regions: dict
+    :arg  regions:
+        Each value of dict must be a "region specifier" (see below).
+
+    "Region specifier" must be
+
+    """
+    plotkwds = {}
+    if 'ax' in kwds:
+        plotkwds['ax'] = kwds.pop('ax')
+    clg = Coloring(regions, *args, **kwds)
+    clg.plot(**plotkwds)
+    return clg
