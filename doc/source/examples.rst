@@ -6,3 +6,6 @@ Examples
 
 .. plot:: examples/two.py
    :include-source:
+
+.. plot:: examples/config_inheritance.py
+   :include-source:
