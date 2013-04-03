@@ -5,7 +5,11 @@ import sys
 sys.path.insert(0, dirname(dirname(dirname(__file__))))
 
 # -- General configuration ------------------------------------------------
-extensions = ['sphinx.ext.autodoc', 'sphinx.ext.intersphinx']
+extensions = [
+    'sphinx.ext.autodoc',
+    'sphinx.ext.intersphinx',
+    'matplotlib.sphinxext.plot_directive',
+]
 
 templates_path = []  # ['_templates']
 source_suffix = '.rst'
