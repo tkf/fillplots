@@ -2,6 +2,7 @@ import itertools
 
 import numpy
 
+from .core import ModifiedConfig
 from .inequalities import to_inequality, YFunctionInequality, XConstInequality
 
 
@@ -15,8 +16,8 @@ def add_mask(arr, mask):
 class Region(object):
 
     def __init__(self, config, ineqs):
-        self._config = config
-        self._ineqs = list(map(to_inequality, ineqs))
+        self._config = config = ModifiedConfig(config)
+        self._ineqs = [to_inequality(config, ineq) for ineq in ineqs]
 
     def _get_xlim(self):
         (xmin, xmax) = self._config.xlim
@@ -63,7 +64,7 @@ class Region(object):
         ax = self._config.ax
         xs = numpy.linspace(*self._get_xlim())
         (lower, upper) = self._y_lower_upper(xs)
-        ax.fill_between(xs, lower, upper)
+        ax.fill_between(xs, lower, upper, **self._config.fill_args)
 
 
 to_region = Region
