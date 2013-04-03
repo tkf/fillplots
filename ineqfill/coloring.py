@@ -1,5 +1,6 @@
 import numpy
 
+from .core import Configurable
 from .regions import to_region
 
 
@@ -10,11 +11,11 @@ def add_mask(arr, mask):
         arr.mask = mask
 
 
-class Coloring(object):
+class Coloring(Configurable):
 
     def __init__(self, config, regions):
-        self.config = config
-        self._regions = [to_region(config, reg) for reg in regions]
+        super(Coloring, self).__init__(config)
+        self._regions = [to_region(self.config, reg) for reg in regions]
 
     def plot(self):
         self.plot_boundaries()

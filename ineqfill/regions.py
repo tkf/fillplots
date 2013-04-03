@@ -2,7 +2,7 @@ import itertools
 
 import numpy
 
-from .core import ModifiedConfig
+from .core import Configurable
 from .inequalities import to_inequality, YFunctionInequality, XConstInequality
 
 
@@ -13,11 +13,11 @@ def add_mask(arr, mask):
         arr.mask = mask
 
 
-class Region(object):
+class Region(Configurable):
 
     def __init__(self, config, ineqs):
-        self.config = config = ModifiedConfig(config)
-        self._ineqs = [to_inequality(config, ineq) for ineq in ineqs]
+        super(Region, self).__init__(config)
+        self._ineqs = [to_inequality(self.config, ineq) for ineq in ineqs]
 
     def _get_xlim(self):
         (xmin, xmax) = self.config.xlim

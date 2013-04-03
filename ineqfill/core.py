@@ -32,3 +32,9 @@ class ModifiedConfig(BaseConfig):
 
     def __getattr__(self, name):
         return getattr(self.__base, name)
+
+
+class Configurable(object):
+
+    def __init__(self, config):
+        self.config = config = ModifiedConfig(config)
