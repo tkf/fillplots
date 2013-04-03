@@ -1,11 +1,21 @@
-from .core import Config
+from .core import Config, ModifiedConfig
 from . import coloring
+
+
+styles = {
+    'none': Config(),
+    'default': Config(
+        fill_args={'alpha': 0.5},
+    ),
+}
 
 
 class Coloring(coloring.Coloring):
 
-    def __init__(self, regions, xlim=(-10, 10), ylim=(-10, 10)):
-        config = Config(xlim=xlim, ylim=ylim)
+    def __init__(self, regions, config='default',
+                 xlim=(-10, 10), ylim=(-10, 10)):
+        base = styles.get(config, config)
+        config = ModifiedConfig(base, xlim=xlim, ylim=ylim)
         super(Coloring, self).__init__(config, regions)
 
 
