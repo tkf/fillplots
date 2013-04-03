@@ -17,11 +17,11 @@ class Region(Configurable):
 
     def __init__(self, config, ineqs):
         super(Region, self).__init__(config)
-        self._ineqs = [to_inequality(self.config, ineq) for ineq in ineqs]
+        self.inequalities = [to_inequality(self.config, iq) for iq in ineqs]
 
     def _get_xlim(self):
         (xmin, xmax) = self.config.xlim
-        for ineq in self._ineqs:
+        for ineq in self.inequalities:
             if isinstance(ineq, XConstInequality):
                 if ineq.less:
                     xmax = min(xmax, ineq.x)
@@ -32,7 +32,7 @@ class Region(Configurable):
     def _y_lower_upper(self, xs):
         lower = None
         upper = None
-        ineqs = [ieq for ieq in self._ineqs if
+        ineqs = [ieq for ieq in self.inequalities if
                  isinstance(ieq, YFunctionInequality)]
         for (key, ineqs) in itertools.groupby(ineqs, lambda x: x.less):
             yslist = [ineq._masked_y(xs) for ineq in ineqs]
@@ -57,7 +57,7 @@ class Region(Configurable):
         ax = self.config.ax
         # FIXME: option to draw only relevant boundaries
         xs = numpy.linspace(*self.config.xlim)
-        for ineq in self._ineqs:
+        for ineq in self.inequalities:
             ineq.plot_boundary(ax, xs)
 
     def plot_region(self):
