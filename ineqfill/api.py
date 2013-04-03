@@ -3,18 +3,23 @@ from . import coloring
 
 
 styles = {
-    'none': Config(),
-    'default': Config(
+    'none': {},
+    'default': dict(
         fill_args={'alpha': 0.5},
     ),
 }
+
+
+def get_config(name):
+    if name in styles:
+        return Config(**styles[name])
 
 
 class Coloring(coloring.Coloring):
 
     def __init__(self, regions, config='default',
                  xlim=(-10, 10), ylim=(-10, 10)):
-        base = styles.get(config, config)
+        base = get_config(config) or config
         config = ModifiedConfig(base, xlim=xlim, ylim=ylim)
         super(Coloring, self).__init__(config, regions)
 
