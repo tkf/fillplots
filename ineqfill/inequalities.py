@@ -13,7 +13,7 @@ class YFunctionInequality(BaseInequality):
           func(x) > 0
 
         """
-        self._config = config
+        self.config = config
         self.less = less
         self._func = func
         self._domain = domain
@@ -28,19 +28,19 @@ class YFunctionInequality(BaseInequality):
         return numpy.ma.array(self._func(xs), mask=xs.mask)
 
     def plot_boundary(self, ax, xs):
-        ax.plot(xs, self._masked_y(xs), **self._config.line_args)
+        ax.plot(xs, self._masked_y(xs), **self.config.line_args)
 
 
 class XConstInequality(BaseInequality):
 
     def __init__(self, config, x, less=False, domain=None):
-        self._config = config
+        self.config = config
         self.less = less
         self.x = x
         self._domain = domain
 
     def plot_boundary(self, ax):
-        ax.axvline(self.x, **self._config.line_args)
+        ax.axvline(self.x, **self.config.line_args)
 
 
 def to_inequality(config, obj):

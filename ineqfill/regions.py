@@ -16,11 +16,11 @@ def add_mask(arr, mask):
 class Region(object):
 
     def __init__(self, config, ineqs):
-        self._config = config = ModifiedConfig(config)
+        self.config = config = ModifiedConfig(config)
         self._ineqs = [to_inequality(config, ineq) for ineq in ineqs]
 
     def _get_xlim(self):
-        (xmin, xmax) = self._config.xlim
+        (xmin, xmax) = self.config.xlim
         for ineq in self._ineqs:
             if isinstance(ineq, XConstInequality):
                 if ineq.less:
@@ -41,7 +41,7 @@ class Region(object):
             else:
                 lower = numpy.ma.array(yslist).min(axis=0)
 
-        ylim = self._config.ylim
+        ylim = self.config.ylim
         if lower is None:
             lower = numpy.ma.array(numpy.ones_like(xs) * ylim[0])
         if upper is None:
@@ -54,17 +54,17 @@ class Region(object):
         return (lower, upper)
 
     def plot_boundaries(self):
-        ax = self._config.ax
+        ax = self.config.ax
         # FIXME: option to draw only relevant boundaries
-        xs = numpy.linspace(*self._config.xlim)
+        xs = numpy.linspace(*self.config.xlim)
         for ineq in self._ineqs:
             ineq.plot_boundary(ax, xs)
 
     def plot_region(self):
-        ax = self._config.ax
+        ax = self.config.ax
         xs = numpy.linspace(*self._get_xlim())
         (lower, upper) = self._y_lower_upper(xs)
-        ax.fill_between(xs, lower, upper, **self._config.fill_args)
+        ax.fill_between(xs, lower, upper, **self.config.fill_args)
 
 
 to_region = Region

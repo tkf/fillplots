@@ -13,7 +13,7 @@ def add_mask(arr, mask):
 class Coloring(object):
 
     def __init__(self, config, regions):
-        self._config = config
+        self.config = config
         self._regions = [to_region(config, reg) for reg in regions]
 
     def plot(self):
@@ -23,9 +23,9 @@ class Coloring(object):
     def plot_boundaries(self):
         for region in self._regions:
             region.plot_boundaries()
-        self._config.set_lim()
+        self.config.set_lim()
 
     def plot_regions(self):
         for region in self._regions:
             region.plot_region()
-        self._config.set_lim()
+        self.config.set_lim()
