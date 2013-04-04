@@ -1,6 +1,6 @@
 import numpy
 
-from .core import Configurable
+from .core import Configurable, ModifiedConfig
 
 
 class BaseBoundary(Configurable):
@@ -41,3 +41,19 @@ class XConstBoundary(BaseBoundary):
     def plot_boundary(self):
         ax = self.config.ax
         ax.axvline(self.x, **self.config.line_args)
+
+
+def to_boundary(config, obj):
+    if isinstance(obj, BaseBoundary):
+        # FIXME: should I care other cases?
+        obj.config = ModifiedConfig(config)
+        return obj
+    obj = tuple(obj)
+    if callable(obj[0]):
+        return YFunctionBoundary(config, *obj)
+    else:
+        return XConstBoundary(config, *obj)
+
+
+def boundary(*obj):
+    return to_boundary(None, obj)

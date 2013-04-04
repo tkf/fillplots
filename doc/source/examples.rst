@@ -12,3 +12,6 @@ Examples
 
 .. plot:: examples/switching.py
    :include-source:
+
+.. plot:: examples/switching_uniq_boundary.py
+   :include-source:

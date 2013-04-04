@@ -1,14 +1,20 @@
 import numpy
 
-from .core import Configurable
-from .boundaries import YFunctionBoundary, XConstBoundary
+from .core import Configurable, ModifiedConfig
+from .boundaries import (
+    BaseBoundary, YFunctionBoundary, XConstBoundary, to_boundary)
 
 
 class BaseInequality(Configurable):
 
     def __init__(self, config, data, less=False, domain=None):
         super(BaseInequality, self).__init__(config)
-        self.boundary = self._boundaryclass(self.config, data, domain=domain)
+        bclass = self._boundaryclass
+        if isinstance(data, bclass):
+            assert domain is None
+            self.boundary = data
+        else:
+            self.boundary = bclass(self.config, data, domain=domain)
         self.less = less
 
 
@@ -19,10 +25,10 @@ class YFunctionInequality(BaseInequality):
     def plot_positive_direction(self):
         ax = self.config.ax
         (ymin, ymax) = self.config.ylim
-        (xmin, xmax) = self._domain or self.config.xlim
+        (xmin, xmax) = self.boundary._domain or self.config.xlim
         xs = numpy.linspace(xmin, xmax, self.config.num_direction_arrows + 2)
         xs = xs[1:-1]
-        ys = self._masked_y(xs)
+        ys = self.boundary._masked_y(xs)
         dy = (ymax - ymin) * self.config.direction_arrows_size
         kwds = dict(fmt=None)
         kwds.update({('lolims' if self.less else 'uplims'): True})
@@ -47,11 +53,20 @@ class XConstInequality(BaseInequality):
         ax.errorbar(xs, ys, xerr=dx, **kwds)
 
 
+_IEQ_CLASSES = [YFunctionInequality, XConstInequality]
+_IEQ_CLASS_MAP = dict((cls._boundaryclass, cls) for cls in _IEQ_CLASSES)
+
+
 def to_inequality(config, obj):
     if isinstance(obj, BaseInequality):
+        # FIXME: should I care other cases?
+        obj.config = ModifiedConfig(config)
         return obj
     obj = tuple(obj)
-    if callable(obj[0]):
+    if isinstance(obj[0], BaseBoundary):
+        data = to_boundary(config, obj[0])
+        return _IEQ_CLASS_MAP[data.__class__](config, data, *obj[1:])
+    elif callable(obj[0]):
         return YFunctionInequality(config, *obj)
     else:
         return XConstInequality(config, *obj)
