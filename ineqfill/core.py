@@ -21,6 +21,8 @@ class Config(BaseConfig):
         # FIXME: write arguments explicitly
         self.line_args = {}
         self.fill_args = {}
+        self.num_direction_arrows = 5
+        self.direction_arrows_size = 0.03
         super(Config, self).__init__(**kwds)
 
 

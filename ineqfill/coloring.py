@@ -30,3 +30,11 @@ class Coloring(Configurable):
         for region in self.regions:
             region.plot_region()
         self.config.set_lim()
+
+    def _get_inequalities(self):
+        ineqs = (iq for region in self.regions for iq in region.inequalities)
+        return ineqs
+
+    def plot_positive_direction(self):
+        for iq in self._get_inequalities():
+            iq.plot_positive_direction()
