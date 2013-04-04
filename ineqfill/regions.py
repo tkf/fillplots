@@ -24,9 +24,9 @@ class Region(Configurable):
         for ineq in self.inequalities:
             if isinstance(ineq, XConstInequality):
                 if ineq.less:
-                    xmax = min(xmax, ineq.x)
+                    xmax = min(xmax, ineq.boundary.x)
                 else:
-                    xmin = max(xmin, ineq.x)
+                    xmin = max(xmin, ineq.boundary.x)
         return (xmin, xmax)
 
     def _y_lower_upper(self, xs):
@@ -35,7 +35,7 @@ class Region(Configurable):
         ineqs = [ieq for ieq in self.inequalities if
                  isinstance(ieq, YFunctionInequality)]
         for (key, ineqs) in itertools.groupby(ineqs, lambda x: x.less):
-            yslist = [ineq._masked_y(xs) for ineq in ineqs]
+            yslist = [ineq.boundary._masked_y(xs) for ineq in ineqs]
             if key:
                 upper = numpy.ma.array(yslist).max(axis=0)
             else:
@@ -56,7 +56,7 @@ class Region(Configurable):
     def plot_boundaries(self):
         # FIXME: option to draw only relevant boundaries
         for ineq in self.inequalities:
-            ineq.plot_boundary()
+            ineq.boundary.plot_boundary()
 
     def plot_region(self):
         ax = self.config.ax

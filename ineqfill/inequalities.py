@@ -1,41 +1,20 @@
 import numpy
 
 from .core import Configurable
+from .boundaries import YFunctionBoundary, XConstBoundary
 
 
 class BaseInequality(Configurable):
 
-    def __init__(self, config, less=False, domain=None):
+    def __init__(self, config, data, less=False, domain=None):
         super(BaseInequality, self).__init__(config)
+        self.boundary = self._boundaryclass(self.config, data, domain=domain)
         self.less = less
-        self._domain = domain
 
 
 class YFunctionInequality(BaseInequality):
 
-    def __init__(self, config, func, *args, **kwds):
-        """
-
-          func(x) > 0
-
-        """
-        super(YFunctionInequality, self).__init__(config, *args, **kwds)
-        self._func = func
-
-    def _masked_y(self, xs):
-        if self._domain is None:
-            return self._func(xs)
-        xs = numpy.ma.array(xs)
-        (xmin, xmax) = self._domain
-        xs.mask = xs.mask | xs < xmin
-        xs.mask = xs.mask | xs > xmax
-        return numpy.ma.array(self._func(xs), mask=xs.mask)
-
-    def plot_boundary(self):
-        ax = self.config.ax
-        xs = numpy.linspace(*self.config.xlim)
-        ys = self._masked_y(xs)
-        ax.plot(xs, ys, **self.config.line_args)
+    _boundaryclass = YFunctionBoundary
 
     def plot_positive_direction(self):
         ax = self.config.ax
@@ -53,13 +32,7 @@ class YFunctionInequality(BaseInequality):
 
 class XConstInequality(BaseInequality):
 
-    def __init__(self, config, x, *args, **kwds):
-        super(XConstInequality, self).__init__(config, *args, **kwds)
-        self.x = x
-
-    def plot_boundary(self):
-        ax = self.config.ax
-        ax.axvline(self.x, **self.config.line_args)
+    _boundaryclass = XConstBoundary
 
     def plot_positive_direction(self):
         ax = self.config.ax
