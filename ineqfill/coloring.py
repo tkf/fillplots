@@ -4,6 +4,24 @@ from .core import Configurable
 from .regions import to_region
 
 
+def uniq(seq, key=lambda x: x):
+    """
+    Return unique elements in `seq`, preserving the order.
+
+    >>> list(uniq([0, 1, 0, 2, 1, 2]))
+    [0, 1, 2]
+    >>> list(uniq(enumerate('iljkiljk'), key=lambda x: x[1]))
+    [(0, 'i'), (1, 'l'), (2, 'j'), (3, 'k')]
+
+    """
+    seen = set()
+    for i in seq:
+        k = key(i)
+        if k not in seen:
+            yield i
+            seen.add(k)
+
+
 def add_mask(arr, mask):
     if isinstance(arr.mask, numpy.ndarray):
         arr.mask[mask] = True
@@ -21,9 +39,13 @@ class Coloring(Configurable):
         self.plot_boundaries()
         self.plot_regions()
 
+    def _get_boundaries(self):
+        return uniq(iq.boundary for iq in self._get_inequalities())
+
     def plot_boundaries(self):
-        for region in self.regions:
-            region.plot_boundaries()
+        # FIXME: option to draw only relevant boundaries
+        for boundary in self._get_boundaries():
+            boundary.plot_boundary()
         self.config.set_lim()
 
     def plot_regions(self):

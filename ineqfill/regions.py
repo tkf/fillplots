@@ -54,7 +54,6 @@ class Region(Configurable):
         return (lower, upper)
 
     def plot_boundaries(self):
-        # FIXME: option to draw only relevant boundaries
         for ineq in self.inequalities:
             ineq.boundary.plot_boundary()
 
