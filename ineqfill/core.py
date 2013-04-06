@@ -1,7 +1,17 @@
-class BaseConfig(object):
+from .utils.chainstruct import Struct
 
-    def __init__(self, **kwds):
-        self.__dict__.update(kwds)
+
+class Config(Struct):
+
+    # Should be renamed to "Resource?"
+
+    def __init__(self, *args, **kwds):
+        # FIXME: write arguments explicitly
+        self.line_args = {}
+        self.fill_args = {}
+        self.num_direction_arrows = 5
+        self.direction_arrows_size = 0.03
+        super(Config, self).__init__(*args, **kwds)
 
     @property
     def ax(self):
@@ -13,33 +23,7 @@ class BaseConfig(object):
         self.ax.set_ylim(*self.ylim)
 
 
-class Config(BaseConfig):
-
-    # Should be renamed to "Resource?"
-
-    def __init__(self, **kwds):
-        # FIXME: write arguments explicitly
-        self.line_args = {}
-        self.fill_args = {}
-        self.num_direction_arrows = 5
-        self.direction_arrows_size = 0.03
-        super(Config, self).__init__(**kwds)
-
-
-class ModifiedConfig(BaseConfig):
-
-    def __init__(self, base, **kwds):
-        self._base = base
-        """
-        Like ``.prototype`` in Javascript.
-        """
-        super(ModifiedConfig, self).__init__(**kwds)
-
-    def __getattr__(self, name):
-        return getattr(self._base, name)
-
-
 class Configurable(object):
 
     def __init__(self, baseconfig):
-        self.config = ModifiedConfig(baseconfig)
+        self.config = Config(baseconfig)
