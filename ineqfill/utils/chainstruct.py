@@ -1,3 +1,6 @@
+from collections import MutableMapping
+
+
 class Struct(object):
 
     """
@@ -27,6 +30,8 @@ class Struct(object):
     10
     >>> two.beta['delta']
     20
+    >>> two.beta == {'gamma': 10, 'delta': 20}
+    True
 
     Note that changing downstream dictionaries does not change upstream ones.
 
@@ -61,40 +66,61 @@ class Struct(object):
         self._base = base
 
     def __setattr__(self, name, value):
-        if isinstance(value, dict) and not isinstance(value, Dict):
+        if isinstance(value, MutableMapping) and not isinstance(value, Dict):
             value = Dict(self, name, value)
         super(Struct, self).__setattr__(name, value)
 
     def __getattr__(self, name):
         value = getattr(self._base, name)
-        if isinstance(value, dict):
+        if isinstance(value, MutableMapping):
             value = Dict(self, name)
             setattr(self, name, value)
         return value
 
 
-class Dict(dict):
+class Dict(MutableMapping):
 
     """
-    A subclass of `dict` which is used for :class:`Struct` attributes.
+    A `dict`-like object for :class:`Struct` attributes.
 
     See also :meth:`Struct.__setattr__`.
 
     """
 
     def __init__(self, struct, name, *args, **kwds):
-        super(Dict, self).__init__(*args, **kwds)
+        self._data = dict(*args, **kwds)
         self._struct = struct
         self._name = name
 
+    def _basedict(self):
+        return getattr(self._struct._base, self._name)
+
     def __getitem__(self, key):
         try:
-            return super(Dict, self).__getitem__(key)
-        except KeyError:
+            return self._data[key]
+        except KeyError as e:
             try:
-                basedict = getattr(self._struct._base, self._name)
+                return self._basedict()[key]
             except AttributeError:
                 pass
-            else:
-                return basedict[key]
-            raise
+            raise e
+
+    def __setitem__(self, key, value):
+        self._data[key] = value
+
+    def __delitem__(self, key):
+        del self._data[key]
+
+    def __keyset(self):
+        try:
+            basedict = self._basedict()
+        except AttributeError:
+            return set(self._data)
+        else:
+            return set(self._data) | set(basedict)
+
+    def __iter__(self):
+        return iter(self.__keyset())
+
+    def __len__(self):
+        return len(self.__keyset())
