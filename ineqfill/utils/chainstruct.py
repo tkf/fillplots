@@ -32,6 +32,9 @@ class Struct(object):
 
     >>> 'delta' in zero.beta
     False
+    >>> two.beta['epsilon'] = 30
+    >>> 'epsilon' in one.beta
+    False
 
     Setting whole dictionary works as expected.
 
@@ -63,7 +66,11 @@ class Struct(object):
         super(Struct, self).__setattr__(name, value)
 
     def __getattr__(self, name):
-        return getattr(self._base, name)
+        value = getattr(self._base, name)
+        if isinstance(value, dict):
+            value = Dict(self, name)
+            setattr(self, name, value)
+        return value
 
 
 class Dict(dict):
