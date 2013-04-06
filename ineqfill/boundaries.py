@@ -1,6 +1,6 @@
 import numpy
 
-from .core import Configurable, ModifiedConfig
+from .core import Configurable
 
 
 class BaseBoundary(Configurable):
@@ -46,7 +46,7 @@ class XConstBoundary(BaseBoundary):
 def to_boundary(config, obj):
     if isinstance(obj, BaseBoundary):
         # FIXME: should I care other cases?
-        obj.config = ModifiedConfig(config)
+        obj.config._base = config
         return obj
     obj = tuple(obj)
     if callable(obj[0]):

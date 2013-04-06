@@ -1,4 +1,4 @@
-from .core import Config, ModifiedConfig
+from .core import Config
 from . import coloring
 
 
@@ -19,9 +19,10 @@ class Coloring(coloring.Coloring):
 
     def __init__(self, regions, config='default',
                  xlim=(-10, 10), ylim=(-10, 10)):
-        base = get_config(config) or config
-        config = ModifiedConfig(base, xlim=xlim, ylim=ylim)
+        config = get_config(config) or config
         super(Coloring, self).__init__(config, regions)
+        self.config.xlim = xlim
+        self.config.ylim = ylim
 
 
 def plot_inequalities(regions, *args, **kwds):

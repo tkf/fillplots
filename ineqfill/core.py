@@ -29,14 +29,17 @@ class Config(BaseConfig):
 class ModifiedConfig(BaseConfig):
 
     def __init__(self, base, **kwds):
-        self.__base = base
+        self._base = base
+        """
+        Like ``.prototype`` in Javascript.
+        """
         super(ModifiedConfig, self).__init__(**kwds)
 
     def __getattr__(self, name):
-        return getattr(self.__base, name)
+        return getattr(self._base, name)
 
 
 class Configurable(object):
 
-    def __init__(self, config):
-        self.config = config = ModifiedConfig(config)
+    def __init__(self, baseconfig):
+        self.config = ModifiedConfig(baseconfig)

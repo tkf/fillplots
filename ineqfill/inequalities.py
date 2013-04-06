@@ -1,14 +1,14 @@
 import numpy
 
-from .core import Configurable, ModifiedConfig
+from .core import Configurable
 from .boundaries import (
     BaseBoundary, YFunctionBoundary, XConstBoundary, to_boundary)
 
 
 class BaseInequality(Configurable):
 
-    def __init__(self, config, data, less=False, domain=None):
-        super(BaseInequality, self).__init__(config)
+    def __init__(self, baseconfig, data, less=False, domain=None):
+        super(BaseInequality, self).__init__(baseconfig)
         bclass = self._boundaryclass
         if isinstance(data, bclass):
             assert domain is None
@@ -60,7 +60,7 @@ _IEQ_CLASS_MAP = dict((cls._boundaryclass, cls) for cls in _IEQ_CLASSES)
 def to_inequality(config, obj):
     if isinstance(obj, BaseInequality):
         # FIXME: should I care other cases?
-        obj.config = ModifiedConfig(config)
+        obj.config._base = config
         return obj
     obj = tuple(obj)
     if isinstance(obj[0], BaseBoundary):
