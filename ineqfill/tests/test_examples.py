@@ -59,4 +59,4 @@ class TestExamples(unittest.TestCase):
         lines = ax.get_lines()
         colors = mapcall('get_color', lines)
         assert colors[:2] == ['b', 'g']
-        assert set(colors) == set(['b', 'g', 'c', 'y'])
+        assert set(colors) == set(['b', 'g'])

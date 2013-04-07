@@ -18,6 +18,7 @@ class Config(Struct):
         self.direction_arrows_size = 0.03
         super(Config, self).__init__(*args, **kwds)
 
+        self.lines = []
         if not hasattr(self, 'fill_color_cycle'):
             self.fill_color_cycle = itertools.cycle(fill_color_list())
             # FIXME: this does not work when initialized before the base
@@ -34,11 +35,13 @@ class Config(Struct):
 
     def plot(self, *args, **kwds):
         kwds.update(self.line_args)
-        self.ax.plot(*args, **kwds)
+        lines = self.ax.plot(*args, **kwds)
+        self.lines.extend(lines)
 
     def axvline(self, *args, **kwds):
         kwds.update(self.line_args)
-        self.ax.axvline(*args, **kwds)
+        line = self.ax.axvline(*args, **kwds)
+        self.lines.append(line)
 
     def fill_between(self, *args, **kwds):
         """
@@ -68,8 +71,10 @@ class Config(Struct):
             )
         self.ax.fill_between(*args, **kwds)
 
-    def _errorbar(self, orientation, func, **kwds):
+    def _errorbar(self, orientation, func, boundary_color=None, **kwds):
         kwds.setdefault('fmt', None)
+        if boundary_color and 'ecolor' not in kwds:
+            kwds['ecolor'] = boundary_color
         (xmin, xmax) = kwds.pop('xlim', None) or self.xlim
         (ymin, ymax) = kwds.pop('ylim', None) or self.ylim
         if orientation == 'y':
@@ -85,7 +90,6 @@ class Config(Struct):
         else:
             (xs, ys) = (vs, us)
             kwds.update(xerr=delta)
-        # FIMXE: use the same color as the line itself
         self.ax.errorbar(xs, ys, **kwds)
 
     def yerrorbar(self, func, less=False, **kwds):
