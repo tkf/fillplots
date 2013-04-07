@@ -5,7 +5,7 @@ from . import coloring
 styles = {
     'none': {},
     'default': dict(
-        fill_args={'alpha': 0.5},
+        fill_args={'autocolor': True},
     ),
 }
 

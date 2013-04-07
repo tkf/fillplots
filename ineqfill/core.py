@@ -1,6 +1,9 @@
+import itertools
+
 import numpy
 
 from .utils.chainstruct import Struct
+from .mplcolors import fill_color_list
 
 
 class Config(Struct):
@@ -14,6 +17,11 @@ class Config(Struct):
         self.num_direction_arrows = 5
         self.direction_arrows_size = 0.03
         super(Config, self).__init__(*args, **kwds)
+
+        if not hasattr(self, 'fill_color_cycle'):
+            self.fill_color_cycle = itertools.cycle(fill_color_list())
+            # FIXME: this does not work when initialized before the base
+            #        config (and then base config is set afterwards).
 
     @property
     def ax(self):
@@ -33,7 +41,31 @@ class Config(Struct):
         self.ax.axvline(*args, **kwds)
 
     def fill_between(self, *args, **kwds):
+        """
+        Configurable :meth:`matplotlib.axes.Axes.fill_between`.
+
+        It can take additional keyword argument `autocolor`, which is
+        not defined in matplotlib.  It looks like there is no good way
+        to eliminate edge color natively by matplotlib [1]_.  `autocolor`
+        can be used to set `facecolor` and `edgecolor` to the same color.
+        If `facecolor` is specified, it is used.  Otherwise, the color is
+        generated from :attr:`fill_color_cycle`.
+
+        .. [1] See:
+           http://stackoverflow.com/questions/14143092/
+           http://permalink.gmane.org/gmane.comp.python.matplotlib.general/996
+
+        """
         kwds.update(self.fill_args)
+        if kwds.pop('autocolor', False):
+            color = kwds.get('facecolor') or next(self.fill_color_cycle)
+            kwds.update(
+                facecolor=color,
+                edgecolor=color,
+                alpha=1,
+                # this does not work in some backend?:
+                linewidth=0,
+            )
         self.ax.fill_between(*args, **kwds)
 
     def _errorbar(self, orientation, func, **kwds):
