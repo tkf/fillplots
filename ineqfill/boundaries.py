@@ -46,7 +46,7 @@ class XConstBoundary(BaseBoundary):
 def to_boundary(config, obj):
     if isinstance(obj, BaseBoundary):
         # FIXME: should I care other cases?
-        obj.config._base = config
+        obj.config._set_base(config)
         return obj
     obj = tuple(obj)
     if callable(obj[0]):

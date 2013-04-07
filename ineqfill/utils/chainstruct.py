@@ -63,10 +63,10 @@ class Struct(object):
 
     def _set_base(self, base):
         # FIXME: implement "multiple inheritance"?
-        self._base = base
+        self.__base = base
 
     def _getbaseattr(self, name):
-        return getattr(self._base, name)
+        return getattr(self.__base, name)
 
     def __setattr__(self, name, value):
         if isinstance(value, MutableMapping) and not isinstance(value, Dict):

@@ -60,7 +60,7 @@ _IEQ_CLASS_MAP = dict((cls._boundaryclass, cls) for cls in _IEQ_CLASSES)
 def to_inequality(config, obj):
     if isinstance(obj, BaseInequality):
         # FIXME: should I care other cases?
-        obj.config._base = config
+        obj.config._set_base(config)
         return obj
     obj = tuple(obj)
     if isinstance(obj[0], BaseBoundary):
