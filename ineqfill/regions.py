@@ -58,10 +58,9 @@ class Region(Configurable):
             ineq.boundary.plot_boundary()
 
     def plot_region(self):
-        ax = self.config.ax
         xs = numpy.linspace(*self._get_xlim())
         (lower, upper) = self._y_lower_upper(xs)
-        ax.fill_between(xs, lower, upper, **self.config.fill_args)
+        self.config.fill_between(xs, lower, upper)
 
 
 to_region = Region
