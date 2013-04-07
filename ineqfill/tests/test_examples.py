@@ -52,3 +52,11 @@ class TestExamples(unittest.TestCase):
         lines = ax.get_lines()
         colors = mapcall('get_color', lines)
         assert colors == ['b', 'k', 'k', 'g', 'r']
+
+    def test_positive_direction(self):
+        self.run_example('positive_direction.py')
+        ax = self.ax
+        lines = ax.get_lines()
+        colors = mapcall('get_color', lines)
+        assert colors[:2] == ['b', 'g']
+        assert set(colors) == set(['b', 'g', 'c', 'y'])
