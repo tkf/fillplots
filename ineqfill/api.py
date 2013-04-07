@@ -17,6 +17,67 @@ def get_config(name):
 
 class Coloring(coloring.Coloring):
 
+    """
+    Initialize a coloring object with a list of regions.
+
+    :type regions: list
+    :arg  regions:
+        Each value of list must be a "region specifier" (see below).
+
+    :type config: str or Config
+    :arg  config:
+        ``'default'``, ``'none'`` or a :class:`core.Config` object.
+
+    :type xlim: (int, int)
+    :arg  xlim:
+    :type ylim: (int, int)
+    :arg  ylim:
+
+    "Region specifier" is a list of "inequality specifiers".
+    Each "inequality specifier" is a tuple of ``(data[, less[, domain]])``.
+
+    `data` is either a callable or a number.  If it is a callable,
+    this defines y of boundary as a function of x.  If it is a number
+    it is a vertical boundary, inidicated by that number.
+
+    `less` is a bool.  True means *<* (less than) and False means *>*
+    (larger than).  Default is False.
+
+    `domain` is a pair ``(xmin, xmax)`` which indicates defined region
+    of the function.
+
+    An example of specifying "*x^2 > 0* or *x + 5 > 0*" is::
+
+    >>> clg = Coloring(
+    ...     [  # Regions:
+    ...         [  # Inequalities:
+    ...              (lambda x: x ** 2,),  # <-- Boundary data
+    ...              (lambda x: x + 5,)
+    ...         ],
+    ...     ])
+
+    You can access each "layer" like this:
+
+    >>> clg.regions[0]
+    <ineqfill.regions... object at 0x...>
+    >>> clg.regions[0].inequalities[0]
+    <ineqfill.inequalities... object at 0x...>
+    >>> clg.regions[0].inequalities[0].boundary
+    <ineqfill.boundaries... object at 0x...>
+
+    Each "layer" has configuration object which can be modified.
+
+    >>> clg.regions[0].inequalities[0].boundary.config
+    <ineqfill.core.Config object at 0x...>
+    >>> clg.regions[0].inequalities[0].config
+    <ineqfill.core.Config object at 0x...>
+    >>> clg.regions[0].config
+    <ineqfill.core.Config object at 0x...>
+    >>> clg.config
+    <ineqfill.core.Config object at 0x...>
+
+    """
+
     def __init__(self, regions, config='default',
                  xlim=(-10, 10), ylim=(-10, 10)):
         config = get_config(config) or config
@@ -27,13 +88,10 @@ class Coloring(coloring.Coloring):
 
 def plot_inequalities(regions, *args, **kwds):
     """
-    Initialize a coloring object with a list of regions.
+    Create :class:`Coloring` object and call plot function of it.
 
-    :type regions: dict
-    :arg  regions:
-        Each value of dict must be a "region specifier" (see below).
-
-    "Region specifier" must be
+    :type ax: :class:`matplotlib.axes.Axes`
+    :arg  ax: Inequalities are drawn on this axes if given.
 
     """
     plotkwds = {}
