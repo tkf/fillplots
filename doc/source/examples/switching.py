@@ -1,3 +1,5 @@
+# To draw complex region, you need to conditionally switch boundaries.
+
 from ineqfill import Coloring
 clg = Coloring([
     [(lambda x: x ** 0.5, True),
