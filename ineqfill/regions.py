@@ -13,6 +13,13 @@ def add_mask(arr, mask):
         arr.mask = mask
 
 
+def center_of_mass(masses, coordinates):
+    x = numpy.asarray(coordinates, dtype=float)
+    m = numpy.asarray(masses, dtype=float)
+    com = numpy.dot(m, x) / m.sum()
+    return com
+
+
 class Region(Configurable):
 
     def __init__(self, config, ineqs):
@@ -103,6 +110,16 @@ class Region(Configurable):
             if mindist(endpoitns, reg.endpoints) < eps:
                 return True
         return False
+
+    def mass_center(self):
+        """
+        Mass nad center of mass.
+        """
+        xs = numpy.linspace(*self._get_xlim())
+        (lower, upper) = self._y_lower_upper(xs)
+        height = (upper - lower)
+        coordinates = numpy.array([xs, (upper + lower) / 2.0]).T
+        return (height.sum(), center_of_mass(height, coordinates))
 
     def contiguous_domains(self):
         from matplotlib.mlab import contiguous_regions
@@ -197,15 +214,13 @@ def endpoints(regions):
 
 
 def center(regions):
-    (llp, lrp, ulp, urp) = endpoints(regions)
-    tricom = lambda a, b, c: (a + b + c) / 3.0
-    triarea = lambda a, b, c: numpy.cross(b - a, c - a) / 2.0
-    x = tricom(llp, lrp, ulp)
-    y = tricom(lrp, ulp, urp)
-    A = triarea(llp, lrp, ulp)
-    B = triarea(lrp, ulp, urp)
-    C = A + B
-    return (A * x + B * y) / C
+    masses = []
+    coordinates = []
+    for r in regions:
+        (m, cs) = r.mass_center()
+        masses.append(m)
+        coordinates.append(cs)
+    return center_of_mass(masses, coordinates)
 
 
 def annotate_regions(regions, text,
