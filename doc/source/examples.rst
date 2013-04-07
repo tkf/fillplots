@@ -16,5 +16,8 @@ Examples
 .. plot:: examples/switching_uniq_boundary.py
    :include-source:
 
+.. plot:: examples/switching_region_color.py
+   :include-source:
+
 .. plot:: examples/positive_direction.py
    :include-source:

@@ -53,6 +53,14 @@ class TestExamples(unittest.TestCase):
         colors = mapcall('get_color', lines)
         assert colors == ['b', 'k', 'k', 'g', 'r']
 
+    def test_switching_region_color(self):
+        from matplotlib.colors import colorConverter
+        from numpy.testing import assert_almost_equal
+        self.run_example('switching_region_color.py')
+        actual_colors = mapcall('get_facecolor', self.ax.collections)
+        desired_colors = [[colorConverter.to_rgba('gray')]] * 3
+        assert_almost_equal(actual_colors, desired_colors)
+
     def test_positive_direction(self):
         self.run_example('positive_direction.py')
         ax = self.ax
