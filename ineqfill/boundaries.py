@@ -26,7 +26,8 @@ class YFunctionBoundary(BaseBoundary):
         return numpy.ma.array(self._func(xs), mask=xs.mask)
 
     def plot_boundary(self):
-        xs = numpy.linspace(*self.config.xlim)
+        num = self.config.num_boundary_samples
+        xs = numpy.linspace(*self.config.xlim, num=num)
         ys = self._masked_y(xs)
         self.config.plot(xs, ys)
 

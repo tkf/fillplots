@@ -75,7 +75,8 @@ class Region(Configurable):
             ineq.boundary.plot_boundary()
 
     def plot_region(self):
-        xs = numpy.linspace(*self._get_xlim())
+        num = self.config.num_boundary_samples
+        xs = numpy.linspace(*self._get_xlim(), num=num)
         (lower, upper) = self._y_lower_upper(xs)
         self.config.fill_between(xs, lower, upper)
 
@@ -115,7 +116,8 @@ class Region(Configurable):
         """
         Mass nad center of mass.
         """
-        xs = numpy.linspace(*self._get_xlim())
+        num = self.config.num_com_samples
+        xs = numpy.linspace(*self._get_xlim(), num=num)
         (lower, upper) = self._y_lower_upper(xs)
         height = (upper - lower)
         coordinates = numpy.array([xs, (upper + lower) / 2.0]).T
@@ -125,7 +127,8 @@ class Region(Configurable):
         from matplotlib import mlab
         from scipy.optimize import brentq
         xlim = self._get_xlim()
-        xs = numpy.linspace(*xlim)
+        num = self.config.num_boundary_samples
+        xs = numpy.linspace(*xlim, num=num)
         (ymin, ymax) = self.config.ylim
         (lower_f, upper_f) = self._y_funcs()
         lower = lower_f(xs)

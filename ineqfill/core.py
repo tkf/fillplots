@@ -14,6 +14,8 @@ class Config(Struct):
         # FIXME: write arguments explicitly
         self.line_args = {}
         self.fill_args = {}
+        self.num_boundary_samples = 1000
+        self.num_com_samples = 50
         self.num_direction_arrows = 5
         self.direction_arrows_size = 0.03
         super(Config, self).__init__(*args, **kwds)
