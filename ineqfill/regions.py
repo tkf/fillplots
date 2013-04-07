@@ -62,5 +62,66 @@ class Region(Configurable):
         (lower, upper) = self._y_lower_upper(xs)
         self.config.fill_between(xs, lower, upper)
 
+    @property
+    def endpoints(self):
+        """
+        2D array: [lower-left, lower-right, upper-left, upper-right]
+        """
+        xs = numpy.array(self._get_xlim())
+        (lower, upper) = self._y_lower_upper(xs)
+        return numpy.array([
+            [xs[0], lower[0]],
+            [xs[1], lower[1]],
+            [xs[0], upper[0]],
+            [xs[1], upper[1]],
+        ])
+
+    def is_contiguous_to(self, regions):
+        """
+        Check if this region is contiguous to one of region in `regions`.
+
+        Current implementation returns True if the following relationship
+        is (nearly) satisfied::
+
+            regions[i].endpoints[j] == self.endpoints[k]
+
+        """
+        endpoitns = self.endpoints
+        (xmin, xmax) = self.config.xlim
+        eps = (xmax - xmin) * 1e-5
+        for reg in regions:
+            if mindist(endpoitns, reg.endpoints) < eps:
+                return True
+        return False
+
 
 to_region = Region
+
+
+def mindist(ps, qs):
+    xps = numpy.concatenate((ps,) * len(qs))
+    xqs = numpy.repeat(qs, len(ps), axis=0)
+    dist = numpy.sum((xps - xqs) ** 2, axis=1)
+    assert len(ps) * len(qs) == len(dist)
+    return numpy.sqrt(dist.min())
+
+
+def contiguous_groups(regions):
+    """
+    Divide regions into contiguous groups.
+    """
+    if len(regions) == 0:
+        return
+
+    pivot = regions[0]
+    groups = iter(contiguous_groups(regions[1:]))
+    for group in groups:
+        if pivot.is_contiguous_to(group):
+            yield [pivot] + group
+            break
+        else:
+            yield group
+    else:
+        yield [pivot]
+    for group in groups:
+        yield group
