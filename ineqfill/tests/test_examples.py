@@ -21,11 +21,17 @@ class TestExamples(unittest.TestCase):
         self.config = clg.config
         self.ax = clg.config.ax
 
+    def assert_number_of_lines(self, num):
+        lines = self.ax.get_lines()
+        assert len(lines) == num
+
     def test_simple(self):
         self.run_example('simple.py')
-        ax = self.ax
-        lines = ax.get_lines()
-        assert len(lines) == 2
+        self.assert_number_of_lines(2)
+
+    def test_two(self):
+        self.run_example('two.py')
+        self.assert_number_of_lines(4)
 
     def test_config_inheritance(self):
         self.run_example('config_inheritance.py')
@@ -35,6 +41,10 @@ class TestExamples(unittest.TestCase):
         widths = mapcall('get_linewidth', lines)
         assert colors == ['blue'] + ['black'] * 3
         assert widths == [5] + [1.0] * 3
+
+    def test_switching(self):
+        self.run_example('switching.py')
+        self.assert_number_of_lines(8)
 
     def test_switching_uniq_boundary(self):
         self.run_example('switching_uniq_boundary.py')
