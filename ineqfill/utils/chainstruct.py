@@ -65,13 +65,16 @@ class Struct(object):
         # FIXME: implement "multiple inheritance"?
         self._base = base
 
+    def _getbaseattr(self, name):
+        return getattr(self._base, name)
+
     def __setattr__(self, name, value):
         if isinstance(value, MutableMapping) and not isinstance(value, Dict):
             value = Dict(self, name, value)
         super(Struct, self).__setattr__(name, value)
 
     def __getattr__(self, name):
-        value = getattr(self._base, name)
+        value = self._getbaseattr(name)
         if isinstance(value, MutableMapping):
             value = Dict(self, name)
             setattr(self, name, value)
@@ -93,7 +96,7 @@ class Dict(MutableMapping):
         self._name = name
 
     def _basedict(self):
-        return getattr(self._struct._base, self._name)
+        return self._struct._getbaseattr(self._name)
 
     def __getitem__(self, key):
         try:
