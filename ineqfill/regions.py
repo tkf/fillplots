@@ -193,26 +193,6 @@ def contiguous_groups(regions):
         yield group
 
 
-def endpoints(regions):
-    """
-    Combine most outer endpont` of `regions`.
-    """
-    points = numpy.array([r.endpoints for r in regions])
-    lls = points[:, 0]
-    lrs = points[:, 1]
-    uls = points[:, 2]
-    urs = points[:, 3]
-    lla = numpy.array([-1, -1])
-    lra = numpy.array([+1, -1])
-    ula = numpy.array([-1, +1])
-    ura = numpy.array([+1, +1])
-    llp = lls[numpy.argmax(numpy.dot(lls, lla))]
-    lrp = lrs[numpy.argmax(numpy.dot(lrs, lra))]
-    ulp = uls[numpy.argmax(numpy.dot(uls, ula))]
-    urp = urs[numpy.argmax(numpy.dot(urs, ura))]
-    return numpy.array([llp, lrp, ulp, urp])
-
-
 def center(regions):
     masses = []
     coordinates = []
