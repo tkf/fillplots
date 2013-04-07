@@ -68,3 +68,10 @@ class TestExamples(unittest.TestCase):
         colors = mapcall('get_color', lines)
         assert colors[:2] == ['b', 'g']
         assert set(colors) == set(['b', 'g'])
+
+    def test_boundary_labels(self):
+        self.run_example('boundary_labels.py')
+        ax = self.ax
+        leg = ax.get_legend()
+        labels = [text.get_text() for text in leg.texts]
+        assert labels == ['$x ^ 2$', '$x + 5$']

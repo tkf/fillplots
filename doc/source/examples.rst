@@ -21,3 +21,6 @@ Examples
 
 .. plot:: examples/positive_direction.py
    :include-source:
+
+.. plot:: examples/boundary_labels.py
+   :include-source:
