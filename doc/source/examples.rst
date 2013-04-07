@@ -27,3 +27,6 @@ Examples
 
 .. plot:: examples/annotate_regions.py
    :include-source:
+
+.. plot:: examples/divide_regions.py
+   :include-source:

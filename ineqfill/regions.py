@@ -42,10 +42,9 @@ class Region(Configurable):
 
         def make_func(fs, lim, bound):
             if fs:
-                return lambda x: bound(numpy.ma.array([f(x) for f in fs]),
-                                       axis=0)
+                return lambda x: bound([f(x) for f in fs], axis=0)
             else:
-                return lambda x: numpy.ma.array(numpy.ones_like(x)) * lim
+                return lambda x: numpy.ones_like(x) * lim
 
         (ymin, ymax) = self.config.ylim
         return (make_func(lower_fs, ymin, numpy.min),
@@ -53,10 +52,12 @@ class Region(Configurable):
 
     def _y_lower_upper(self, xs):
         (lower_f, upper_f) = self._y_funcs()
-        lower = lower_f(xs)
-        upper = upper_f(xs)
+        lower = numpy.ma.array(lower_f(xs))
+        upper = numpy.ma.array(upper_f(xs))
 
-        reverse = lower > upper
+        (ymin, ymax) = self.config.ylim
+        eps = (ymax - ymin) * 1e-5
+        reverse = lower - eps > upper
         if numpy.any(reverse):
             add_mask(upper, reverse)
             add_mask(lower, reverse)
@@ -102,6 +103,45 @@ class Region(Configurable):
             if mindist(endpoitns, reg.endpoints) < eps:
                 return True
         return False
+
+    def contiguous_domains(self):
+        from matplotlib.mlab import contiguous_regions
+        from scipy.optimize import brentq
+        xlim = self._get_xlim()
+        xs = numpy.linspace(*xlim)
+        (ymin, ymax) = self.config.ylim
+        (lower_f, upper_f) = self._y_funcs()
+        lower = lower_f(xs)
+        upper = upper_f(xs)
+        f = lambda x: max(lower_f(x), ymin) - min(upper_f(x), ymax)
+
+        def find_bound(i, fallback):
+            if numpy.isnan([lower[i - 1], lower[i],
+                            upper[i - 1], upper[i]]).any():
+                return fallback
+            return brentq(f, xs[i - 1], xs[i])
+
+        domains = []
+        for (i, j) in contiguous_regions(lower < upper):
+            if i == 0:
+                x0 = xlim[0]
+            else:
+                x0 = find_bound(i, xs[i])
+            if j == len(upper):
+                x1 = xlim[1]
+            else:
+                x1 = find_bound(j, xs[j - 1])
+            domains.append((x0, x1))
+
+        return domains
+
+    def contiguous_regions(self):
+        regions = []
+        for (x0, x1) in self.contiguous_domains():
+            regions.append(Region(
+                self.config,
+                self.inequalities + [(x0,), (x1, True)]))
+        return regions
 
 
 to_region = Region
@@ -185,10 +225,8 @@ def annotate_regions(regions, text,
     Other keywords are passed to :meth:`matplotlib.axes.Axes.text`.
 
     """
-    # FIXME: Split regions before feeding it into `contiguous_groups`.
-    #        One `Region` instance may have several divided regions.
-    #        Use mlab.contiguous_regions(- numpy.isnan(upper - lower)).
     # FIXME: More annotation styles.  Arrows?  Points with legend?
+    regions = reduce(lambda x, r: x + r.contiguous_regions(), regions, [])
     for group in contiguous_groups(regions):
         ax = group[0].config.ax
         (x, y) = center(group)

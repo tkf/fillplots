@@ -80,3 +80,8 @@ class TestExamples(unittest.TestCase):
         self.run_example('annotate_regions.py')
         from matplotlib import pyplot
         pyplot.draw()
+
+    def test_divide_regions(self):
+        self.run_example('divide_regions.py')
+        from matplotlib import pyplot
+        pyplot.draw()
