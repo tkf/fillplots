@@ -122,7 +122,7 @@ class Region(Configurable):
         return (height.sum(), center_of_mass(height, coordinates))
 
     def contiguous_domains(self):
-        from matplotlib.mlab import contiguous_regions
+        from matplotlib import mlab
         from scipy.optimize import brentq
         xlim = self._get_xlim()
         xs = numpy.linspace(*xlim)
@@ -139,7 +139,7 @@ class Region(Configurable):
             return brentq(f, xs[i - 1], xs[i])
 
         domains = []
-        for (i, j) in contiguous_regions(lower < upper):
+        for (i, j) in mlab.contiguous_regions(lower < upper):
             if i == 0:
                 x0 = xlim[0]
             else:
