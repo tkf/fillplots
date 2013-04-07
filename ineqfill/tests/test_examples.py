@@ -75,3 +75,8 @@ class TestExamples(unittest.TestCase):
         leg = ax.get_legend()
         labels = [text.get_text() for text in leg.texts]
         assert labels == ['$x ^ 2$', '$x + 5$']
+
+    def test_annotate_regions(self):
+        self.run_example('annotate_regions.py')
+        from matplotlib import pyplot
+        pyplot.draw()

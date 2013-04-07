@@ -125,3 +125,65 @@ def contiguous_groups(regions):
         yield [pivot]
     for group in groups:
         yield group
+
+
+def endpoints(regions):
+    """
+    Combine most outer endpont` of `regions`.
+    """
+    points = numpy.array([r.endpoints for r in regions])
+    lls = points[:, 0]
+    lrs = points[:, 1]
+    uls = points[:, 2]
+    urs = points[:, 3]
+    lla = numpy.array([-1, -1])
+    lra = numpy.array([+1, -1])
+    ula = numpy.array([-1, +1])
+    ura = numpy.array([+1, +1])
+    llp = lls[numpy.argmax(numpy.dot(lls, lla))]
+    lrp = lrs[numpy.argmax(numpy.dot(lrs, lra))]
+    ulp = uls[numpy.argmax(numpy.dot(uls, ula))]
+    urp = urs[numpy.argmax(numpy.dot(urs, ura))]
+    return numpy.array([llp, lrp, ulp, urp])
+
+
+def center(regions):
+    (llp, lrp, ulp, urp) = endpoints(regions)
+    tricom = lambda a, b, c: (a + b + c) / 3.0
+    triarea = lambda a, b, c: numpy.cross(b - a, c - a) / 2.0
+    x = tricom(llp, lrp, ulp)
+    y = tricom(lrp, ulp, urp)
+    A = triarea(llp, lrp, ulp)
+    B = triarea(lrp, ulp, urp)
+    C = A + B
+    return (A * x + B * y) / C
+
+
+def annotate_regions(regions, text,
+                     horizontalalignment='center',
+                     verticalalignment='center',
+                     **kwds):
+    """
+    Annotate `regions` with `text`.
+
+    Put only one annotation for each contiguous group of regions.
+
+    :type regions: [Region]
+    :arg  regions:
+    :type    text: str
+    :arg     text:
+
+    Other keywords are passed to :meth:`matplotlib.axes.Axes.text`.
+
+    """
+    # FIXME: Split regions before feeding it into `contiguous_groups`.
+    #        One `Region` instance may have several divided regions.
+    #        Use mlab.contiguous_regions(- numpy.isnan(upper - lower)).
+    # FIXME: More annotation styles.  Arrows?  Points with legend?
+    for group in contiguous_groups(regions):
+        ax = group[0].config.ax
+        (x, y) = center(group)
+        ax.text(x, y, text,
+                horizontalalignment=horizontalalignment,
+                verticalalignment=verticalalignment,
+                **kwds)

@@ -24,3 +24,6 @@ Examples
 
 .. plot:: examples/boundary_labels.py
    :include-source:
+
+.. plot:: examples/annotate_regions.py
+   :include-source:
