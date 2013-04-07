@@ -29,23 +29,32 @@ class Region(Configurable):
                     xmin = max(xmin, ineq.boundary.x)
         return (xmin, xmax)
 
-    def _y_lower_upper(self, xs):
-        lower = None
-        upper = None
+    def _y_funcs(self):
         ineqs = [ieq for ieq in self.inequalities if
                  isinstance(ieq, YFunctionInequality)]
+        lower_fs = []
+        upper_fs = []
         for (key, ineqs) in itertools.groupby(ineqs, lambda x: x.less):
-            yslist = [ineq.boundary._masked_y(xs) for ineq in ineqs]
             if key:
-                upper = numpy.ma.array(yslist).max(axis=0)
+                upper_fs.extend(ineq.boundary._masked_y for ineq in ineqs)
             else:
-                lower = numpy.ma.array(yslist).min(axis=0)
+                lower_fs.extend(ineq.boundary._masked_y for ineq in ineqs)
 
-        ylim = self.config.ylim
-        if lower is None:
-            lower = numpy.ma.array(numpy.ones_like(xs) * ylim[0])
-        if upper is None:
-            upper = numpy.ma.array(numpy.ones_like(xs) * ylim[1])
+        def make_func(fs, lim, bound):
+            if fs:
+                return lambda x: bound(numpy.ma.array([f(x) for f in fs]),
+                                       axis=0)
+            else:
+                return lambda x: numpy.ma.array(numpy.ones_like(x)) * lim
+
+        (ymin, ymax) = self.config.ylim
+        return (make_func(lower_fs, ymin, numpy.min),
+                make_func(upper_fs, ymax, numpy.max))
+
+    def _y_lower_upper(self, xs):
+        (lower_f, upper_f) = self._y_funcs()
+        lower = lower_f(xs)
+        upper = upper_f(xs)
 
         reverse = lower > upper
         if numpy.any(reverse):
