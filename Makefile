@@ -1,7 +1,7 @@
 PROJECT = fillplots
 
 ## Testing
-test:
+test: cog
 	tox
 
 clean: clean-pycache
