@@ -46,6 +46,6 @@ from .api import *
 from .boundaries import boundary
 from .regions import annotate_regions
 
-__version__ = '0.0.1.dev0'
+__version__ = '0.0.1'
 __author__ = 'Takafumi Arakaki'
 __license__ = 'BSD License'
