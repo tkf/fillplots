@@ -1,5 +1,5 @@
 Welcome to fillplots's documentation!
-====================================
+=====================================
 
 Contents:
 
