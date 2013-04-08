@@ -57,17 +57,35 @@ class Plotter(coloring.Coloring):
     ...         ],
     ...     ])
 
-    You can access each "layer" like this:
 
-    >>> plotter.regions[0]
-    <fillplots.regions... object at 0x...>
-    >>> plotter.regions[0].inequalities[0]
-    <fillplots.inequalities... object at 0x...>
+    **Internal representation**
+
+    You can access internal representation as follows.
+    First, :attr:`regions` attribute of this class holds a list of
+    :class:`.BaseRegion` instances:
+
+    >>> plotter.regions
+    [<fillplots.regions... object at 0x...>]
+
+    Each region object has :attr:`inequalities <.BaseRegion.inequalities>`
+    attribute, which holds a list of :class:`.BaseInequality` instances:
+
+    >>> plotter.regions[0].inequalities    # doctest: +NORMALIZE_WHITESPACE
+    [<fillplots.inequalities... object at 0x...>,
+     <fillplots.inequalities... object at 0x...>]
+
+    Finally, each inequality object has :attr:`boundary
+    <.BaseInequality.boundary>` attribute to hold an instance of
+    :class:`.BaseBoundary`.
+
     >>> plotter.regions[0].inequalities[0].boundary
     <fillplots.boundaries... object at 0x...>
 
-    Each "layer" has :class:`.Config` object whose attributes can be
-    modified.
+
+    **Configuration interface**
+
+    Each of these "layer" has an instance of :class:`.Config` object
+    whose attributes can be modified.
 
     >>> plotter.regions[0].inequalities[0].boundary.config
     <fillplots.core.Config object at 0x...>
@@ -77,6 +95,28 @@ class Plotter(coloring.Coloring):
     <fillplots.core.Config object at 0x...>
     >>> plotter.config
     <fillplots.core.Config object at 0x...>
+
+    Modifying upstream configuration propagates to downstream configuration.
+    Let's consider the following configuration:
+
+    >>> plotter.config.line_args['ls'] = 'dotted'
+    >>> plotter.config.line_args['lw'] = 8
+    >>> plotter.regions[0].inequalities[0].config.line_args['ls'] = 'dashed'
+
+    The boundary object of the 0th inequality mixes the configurations of
+    the inequality and the root plotter object.
+
+    >>> plotter.regions[0].inequalities[0].boundary.config.line_args['ls']
+    'dashed'
+    >>> plotter.regions[0].inequalities[0].boundary.config.line_args['lw']
+    8
+
+    The configuration for the 0th inequality does not effect to the
+    1st inequality and its down stream.  So, the configuration of the
+    root plotter object is used:
+
+    >>> plotter.regions[0].inequalities[1].boundary.config.line_args['ls']
+    'dotted'
 
     """
 
