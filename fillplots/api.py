@@ -87,7 +87,7 @@ class Plotter(coloring.Coloring):
         self.config.ylim = ylim
 
 
-def plot_inequalities(regions, *args, **kwds):
+def plot_regions(regions, *args, **kwds):
     """
     Create :class:`Plotter` object and call plot function of it.
 
