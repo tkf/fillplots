@@ -81,5 +81,10 @@ texinfo_documents = [
 
 # -- Options for extensions -----------------------------------------------
 
-# Example configuration for intersphinx: refer to the Python standard library.
-intersphinx_mapping = {'http://docs.python.org/': None}
+intersphinx_mapping = {
+    'pythone': ('http://docs.python.org/', None),
+    'matplotlib': ('http://matplotlib.org/', None),
+}
+
+autodoc_member_order = 'bysource'
+autodoc_default_flags = ['members']
