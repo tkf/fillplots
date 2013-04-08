@@ -15,7 +15,7 @@ def get_config(name):
         return Config(**styles[name])
 
 
-class Coloring(coloring.Coloring):
+class Plotter(coloring.Coloring):
 
     """
     Initialize a coloring object with a list of regions.
@@ -48,7 +48,7 @@ class Coloring(coloring.Coloring):
 
     An example of specifying "*x^2 > 0* or *x + 5 > 0*" is::
 
-    >>> clg = Coloring(
+    >>> clg = Plotter(
     ...     [  # Regions:
     ...         [  # Inequalities:
     ...              (lambda x: x ** 2,),  # <-- Boundary data
@@ -81,14 +81,14 @@ class Coloring(coloring.Coloring):
     def __init__(self, regions, config='default',
                  xlim=(-10, 10), ylim=(-10, 10)):
         config = get_config(config) or config
-        super(Coloring, self).__init__(config, regions)
+        super(Plotter, self).__init__(config, regions)
         self.config.xlim = xlim
         self.config.ylim = ylim
 
 
 def plot_inequalities(regions, *args, **kwds):
     """
-    Create :class:`Coloring` object and call plot function of it.
+    Create :class:`Plotter` object and call plot function of it.
 
     :type ax: :class:`matplotlib.axes.Axes`
     :arg  ax: Inequalities are drawn on this axes if given.
@@ -97,6 +97,6 @@ def plot_inequalities(regions, *args, **kwds):
     plotkwds = {}
     if 'ax' in kwds:
         plotkwds['ax'] = kwds.pop('ax')
-    clg = Coloring(regions, *args, **kwds)
+    clg = Plotter(regions, *args, **kwds)
     clg.plot(**plotkwds)
     return clg

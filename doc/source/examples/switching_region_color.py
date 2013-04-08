@@ -1,5 +1,5 @@
-from fillplots import Coloring
-clg = Coloring([
+from fillplots import Plotter
+clg = Plotter([
     [(lambda x: x ** 0.5, True),
      (1,),
      (2, True)],

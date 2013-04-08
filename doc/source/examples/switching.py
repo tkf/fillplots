@@ -1,7 +1,7 @@
 # To draw complex region, you need to conditionally switch boundaries.
 
-from fillplots import Coloring
-clg = Coloring([
+from fillplots import Plotter
+clg = Plotter([
     [(lambda x: x ** 0.5, True),
      (1,),
      (2, True)],
