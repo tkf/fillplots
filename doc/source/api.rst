@@ -18,3 +18,11 @@ methods.
 .. autoclass:: fillplots.boundaries.BaseBoundary
 .. autoclass:: fillplots.inequalities.BaseInequality
 .. autoclass:: fillplots.regions.BaseRegion
+
+
+Configuration interface
+-----------------------
+
+.. autoclass:: fillplots.core.Config
+
+.. autoclass:: fillplots.utils.chainstruct.Struct
