@@ -66,7 +66,8 @@ class Plotter(coloring.Coloring):
     >>> plotter.regions[0].inequalities[0].boundary
     <fillplots.boundaries... object at 0x...>
 
-    Each "layer" has configuration object which can be modified.
+    Each "layer" has :class:`.Config` object whose attributes can be
+    modified.
 
     >>> plotter.regions[0].inequalities[0].boundary.config
     <fillplots.core.Config object at 0x...>
@@ -92,6 +93,8 @@ def plot_regions(regions, *args, **kwds):
     Create :class:`.Plotter` object and call plot function of it.
 
     All arguments are passed to :class:`.Plotter`.
+
+    :rtype: :class:`.Plotter`
 
     """
     # FIXME: Passing ax to plot functions is not implemented:

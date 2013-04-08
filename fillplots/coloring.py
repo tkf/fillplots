@@ -34,6 +34,9 @@ class Coloring(Configurable):
     def __init__(self, config, regions):
         super(Coloring, self).__init__(config)
         self.regions = [to_region(self.config, reg) for reg in regions]
+        """
+        List of :class:`.BaseRegion` instances.
+        """
 
     def plot(self):
         """

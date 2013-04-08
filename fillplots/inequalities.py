@@ -13,6 +13,9 @@ class BaseInequality(Configurable):
         if isinstance(data, bclass):
             assert domain is None
             self.boundary = data
+            """
+            An instance of :class:`.BaseBoundary` instance.
+            """
         else:
             self.boundary = bclass(self.config, data, domain=domain)
         self.less = less

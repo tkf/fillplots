@@ -25,6 +25,9 @@ class BaseRegion(Configurable):
     def __init__(self, config, ineqs):
         super(BaseRegion, self).__init__(config)
         self.inequalities = [to_inequality(self.config, iq) for iq in ineqs]
+        """
+        List of :class:`.BaseInequality` instances.
+        """
 
     def plot_boundaries(self):
         """
@@ -231,10 +234,10 @@ def annotate_regions(regions, text,
 
     Put only one annotation for each contiguous group of regions.
 
-    :type regions: [Region]
-    :arg  regions:
+    :type regions: list of :class:`.BaseRegion`
+    :arg  regions: These regions are annotated with the same text.
     :type    text: str
-    :arg     text:
+    :arg     text: Annotation text.
 
     Other keywords are passed to :meth:`matplotlib.axes.Axes.text`.
 
