@@ -77,8 +77,8 @@ def boundary(function_or_number, domain=None):
         x-axis.  If `function_or_number` is a number, the domain is
         on y-axis.
 
-    :rtype: :class:`BaseBoundary`
-    :return: An instance of :class:`BaseBoundary` subclass.
+    :rtype: :class:`.BaseBoundary`
+    :return: An instance of :class:`.BaseBoundary` subclass.
 
     """
     return to_boundary(None, (function_or_number, domain))

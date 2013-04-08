@@ -10,8 +10,7 @@ class Config(Struct):
     """
     Configuration interface.
 
-    See also :class:`.utils.chainstruct.Struct`, which is a parent class
-    of this class.
+    See also :class:`.Struct`, which is a parent class of this class.
 
     """
 
