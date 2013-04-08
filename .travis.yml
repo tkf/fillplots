@@ -4,6 +4,7 @@ env:
   - TOXENV=py27
   # - TOXENV=py32
 install:
+  - sudo apt-get install libblas-dev
   - pip install --quiet --use-mirrors tox
 script:
   - tox
