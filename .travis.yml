@@ -5,5 +5,10 @@ env:
   - TOXENV=py32
 install:
   - pip install --quiet --use-mirrors tox
+
+  # travis-ci assumes that the test hangs if there is no output for
+  # long time.  So, let's run installation with "-v".
+  # For example, see: https://travis-ci.org/tkf/fillplots/jobs/6160402
+  - tox --notest -v
 script:
   - tox
