@@ -1,4 +1,4 @@
-from ineqfill import Coloring, annotate_regions
+from fillplots import Coloring, annotate_regions
 clg = Coloring([
     [(lambda x: x ** 2,),
      (lambda x: x + 5,)],

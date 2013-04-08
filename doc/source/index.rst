@@ -1,4 +1,4 @@
-Welcome to ineqfill's documentation!
+Welcome to fillplots's documentation!
 ====================================
 
 Contents:

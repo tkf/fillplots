@@ -59,22 +59,22 @@ class Coloring(coloring.Coloring):
     You can access each "layer" like this:
 
     >>> clg.regions[0]
-    <ineqfill.regions... object at 0x...>
+    <fillplots.regions... object at 0x...>
     >>> clg.regions[0].inequalities[0]
-    <ineqfill.inequalities... object at 0x...>
+    <fillplots.inequalities... object at 0x...>
     >>> clg.regions[0].inequalities[0].boundary
-    <ineqfill.boundaries... object at 0x...>
+    <fillplots.boundaries... object at 0x...>
 
     Each "layer" has configuration object which can be modified.
 
     >>> clg.regions[0].inequalities[0].boundary.config
-    <ineqfill.core.Config object at 0x...>
+    <fillplots.core.Config object at 0x...>
     >>> clg.regions[0].inequalities[0].config
-    <ineqfill.core.Config object at 0x...>
+    <fillplots.core.Config object at 0x...>
     >>> clg.regions[0].config
-    <ineqfill.core.Config object at 0x...>
+    <fillplots.core.Config object at 0x...>
     >>> clg.config
-    <ineqfill.core.Config object at 0x...>
+    <fillplots.core.Config object at 0x...>
 
     """
 

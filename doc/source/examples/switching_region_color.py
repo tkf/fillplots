@@ -1,4 +1,4 @@
-from ineqfill import Coloring
+from fillplots import Coloring
 clg = Coloring([
     [(lambda x: x ** 0.5, True),
      (1,),

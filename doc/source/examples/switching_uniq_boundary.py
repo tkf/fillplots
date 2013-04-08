@@ -2,7 +2,7 @@
 # To draw just one line per boundary, you can initialize the boundary
 # object before creating the Coloring object.
 
-from ineqfill import boundary, Coloring
+from fillplots import boundary, Coloring
 
 # Initialize boundaries individually, so that they are recognized as
 # one line rather than line per region.

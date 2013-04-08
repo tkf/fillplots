@@ -1,5 +1,5 @@
 import numpy
-from ineqfill import Coloring, annotate_regions
+from fillplots import Coloring, annotate_regions
 clg = Coloring([
     [(lambda x: numpy.sin(numpy.pi * x) + 1.1,)],
     [(lambda x: numpy.sin(numpy.pi * x) - 1.1, True)],

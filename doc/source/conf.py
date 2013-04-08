@@ -16,7 +16,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'ineqfill'
+project = u'fillplots'
 copyright = u'2013, Takafumi Arakaki'
 
 # The short X.Y version.
@@ -32,7 +32,7 @@ pygments_style = 'sphinx'
 # -- Options for HTML output ----------------------------------------------
 html_theme = 'default'
 html_static_path = ['_static']
-htmlhelp_basename = 'ineqfilldoc'
+htmlhelp_basename = 'fillplotsdoc'
 
 
 # -- Options for LaTeX output ---------------------------------------------
@@ -51,7 +51,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto/manual]).
 latex_documents = [
-  ('index', 'ineqfill.tex', u'ineqfill Documentation',
+  ('index', 'fillplots.tex', u'fillplots Documentation',
    u'Takafumi Arakaki', 'manual'),
 ]
 
@@ -60,7 +60,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    ('index', 'ineqfill', u'ineqfill Documentation',
+    ('index', 'fillplots', u'fillplots Documentation',
      [u'Takafumi Arakaki'], 1)
 ]
 
@@ -73,8 +73,8 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-  ('index', 'ineqfill', u'ineqfill Documentation',
-   u'Takafumi Arakaki', 'ineqfill', 'One line description of project.',
+  ('index', 'fillplots', u'fillplots Documentation',
+   u'Takafumi Arakaki', 'fillplots', 'One line description of project.',
    'Miscellaneous'),
 ]
 
