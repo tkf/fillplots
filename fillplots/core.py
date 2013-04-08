@@ -34,7 +34,19 @@ class Config(Struct):
         """
         Arguments passed to :meth:`matplotlib.axes.Axes.fill_between`.
 
+        It can take additional keyword argument `autocolor`, which is
+        not defined in matplotlib.  `autocolor` can be used to set
+        `facecolor` and `edgecolor` to the same color.  If `facecolor`
+        is specified, it is used.  Otherwise, the color is generated
+        from :attr:`fill_color_cycle`.  The reason to add this
+        argument is because it looks like that there is no good way to
+        eliminate edge color natively by matplotlib [1]_.
+
         Default is {}.
+
+        .. [1] See:
+           http://stackoverflow.com/questions/14143092/
+           http://permalink.gmane.org/gmane.comp.python.matplotlib.general/996
 
         """
 
@@ -104,18 +116,6 @@ class Config(Struct):
     def fill_between(self, *args, **kwds):
         """
         Configurable :meth:`matplotlib.axes.Axes.fill_between`.
-
-        It can take additional keyword argument `autocolor`, which is
-        not defined in matplotlib.  It looks like there is no good way
-        to eliminate edge color natively by matplotlib [1]_.  `autocolor`
-        can be used to set `facecolor` and `edgecolor` to the same color.
-        If `facecolor` is specified, it is used.  Otherwise, the color is
-        generated from :attr:`fill_color_cycle`.
-
-        .. [1] See:
-           http://stackoverflow.com/questions/14143092/
-           http://permalink.gmane.org/gmane.comp.python.matplotlib.general/996
-
         """
         kwds.update(self.fill_args)
         if kwds.pop('autocolor', False):
