@@ -3,7 +3,6 @@ import itertools
 import numpy
 
 from .utils.chainstruct import Struct
-from .mplcolors import fill_color_list
 
 
 class Config(Struct):
@@ -22,6 +21,7 @@ class Config(Struct):
 
         self.lines = []
         if not hasattr(self, 'fill_color_cycle'):
+            from .mplcolors import fill_color_list
             self.fill_color_cycle = itertools.cycle(fill_color_list())
             # FIXME: this does not work when initialized before the base
             #        config (and then base config is set afterwards).
