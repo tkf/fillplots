@@ -4,9 +4,6 @@ env:
   - TOXENV=py27
   # - TOXENV=py32
 install:
-  # Install blas/lapack/atlas and gfortran for Numpy
-  # See: http://docs.scipy.org/doc/numpy/user/install.html
-  - sudo apt-get install libblas-dev liblapack-dev libatlas-dev gfortran
   - pip install --quiet --use-mirrors tox
 script:
   - tox
