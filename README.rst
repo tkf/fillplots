@@ -15,3 +15,9 @@ License
 
 `fillplots` is licensed under the terms of the BSD 2-Clause License.
 See the COPYING for more information.
+
+
+.. |build-status|
+   image:: https://secure.travis-ci.org/tkf/fillplots.png?branch=master
+   :target: http://travis-ci.org/tkf/fillplots
+   :alt: Build Status
