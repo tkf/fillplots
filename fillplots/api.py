@@ -18,7 +18,7 @@ def get_config(name):
 class Plotter(coloring.Coloring):
 
     """
-    Initialize a coloring object with a list of regions.
+    Plotter to fill regions with colors.
 
     :type regions: list
     :arg  regions:
@@ -29,9 +29,9 @@ class Plotter(coloring.Coloring):
         ``'default'``, ``'none'`` or a :class:`core.Config` object.
 
     :type xlim: (int, int)
-    :arg  xlim:
+    :arg  xlim: Limit for x-axis.  Default is ``(-10, 10)``.
     :type ylim: (int, int)
-    :arg  ylim:
+    :arg  ylim: Limit for y-axis.  Default is ``(-10, 10)``.
 
     "Region specifier" is a list of "inequality specifiers".
     Each "inequality specifier" is a tuple of ``(data[, less[, domain]])``.
@@ -43,10 +43,11 @@ class Plotter(coloring.Coloring):
     `less` is a bool.  True means *<* (less than) and False means *>*
     (larger than).  Default is False.
 
-    `domain` is a pair ``(xmin, xmax)`` which indicates defined region
-    of the function.
+    `domain` is a pair ``(min, max)`` which indicates defined region
+    of the function.  It can be None, which means that this inequality
+    is defined for any real number.
 
-    An example of specifying "*x^2 > 0* or *x + 5 > 0*" is::
+    An example of specifying "*x^2 > 0* or *x + 5 > 0*" is:
 
     >>> plotter = Plotter(
     ...     [  # Regions:
