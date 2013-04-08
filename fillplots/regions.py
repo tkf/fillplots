@@ -125,7 +125,6 @@ class Region(Configurable):
 
     def contiguous_domains(self):
         from matplotlib import mlab
-        from scipy.optimize import brentq
         xlim = self._get_xlim()
         num = self.config.num_boundary_samples
         xs = numpy.linspace(*xlim, num=num)
@@ -133,13 +132,19 @@ class Region(Configurable):
         (lower_f, upper_f) = self._y_funcs()
         lower = lower_f(xs)
         upper = upper_f(xs)
-        f = lambda x: max(lower_f(x), ymin) - min(upper_f(x), ymax)
 
         def find_bound(i, fallback):
-            if numpy.isnan([lower[i - 1], lower[i],
-                            upper[i - 1], upper[i]]).any():
+            xs2 = numpy.linspace(xs[i - 1], xs[i], num_finer)
+            diff = upper_f(xs2) - lower_f(xs2)
+            try:
+                if diff[0] > 0:
+                    j = mlab.cross_from_above(diff, 0)[0] - 1
+                else:
+                    j = mlab.cross_from_below(diff, 0)[0]
+                return xs2[j]
+            except IndexError:
                 return fallback
-            return brentq(f, xs[i - 1], xs[i])
+        num_finer = num
 
         domains = []
         for (i, j) in mlab.contiguous_regions(lower < upper):
