@@ -48,7 +48,7 @@ class Plotter(coloring.Coloring):
 
     An example of specifying "*x^2 > 0* or *x + 5 > 0*" is::
 
-    >>> clg = Plotter(
+    >>> plotter = Plotter(
     ...     [  # Regions:
     ...         [  # Inequalities:
     ...              (lambda x: x ** 2,),  # <-- Boundary data
@@ -58,22 +58,22 @@ class Plotter(coloring.Coloring):
 
     You can access each "layer" like this:
 
-    >>> clg.regions[0]
+    >>> plotter.regions[0]
     <fillplots.regions... object at 0x...>
-    >>> clg.regions[0].inequalities[0]
+    >>> plotter.regions[0].inequalities[0]
     <fillplots.inequalities... object at 0x...>
-    >>> clg.regions[0].inequalities[0].boundary
+    >>> plotter.regions[0].inequalities[0].boundary
     <fillplots.boundaries... object at 0x...>
 
     Each "layer" has configuration object which can be modified.
 
-    >>> clg.regions[0].inequalities[0].boundary.config
+    >>> plotter.regions[0].inequalities[0].boundary.config
     <fillplots.core.Config object at 0x...>
-    >>> clg.regions[0].inequalities[0].config
+    >>> plotter.regions[0].inequalities[0].config
     <fillplots.core.Config object at 0x...>
-    >>> clg.regions[0].config
+    >>> plotter.regions[0].config
     <fillplots.core.Config object at 0x...>
-    >>> clg.config
+    >>> plotter.config
     <fillplots.core.Config object at 0x...>
 
     """
@@ -97,6 +97,6 @@ def plot_inequalities(regions, *args, **kwds):
     plotkwds = {}
     if 'ax' in kwds:
         plotkwds['ax'] = kwds.pop('ax')
-    clg = Plotter(regions, *args, **kwds)
-    clg.plot(**plotkwds)
-    return clg
+    plotter = Plotter(regions, *args, **kwds)
+    plotter.plot(**plotkwds)
+    return plotter

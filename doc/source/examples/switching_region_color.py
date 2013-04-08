@@ -1,5 +1,5 @@
 from fillplots import Plotter
-clg = Plotter([
+plotter = Plotter([
     [(lambda x: x ** 0.5, True),
      (1,),
      (2, True)],
@@ -10,7 +10,7 @@ clg = Plotter([
      (2,)],
 ], xlim=(0, 4), ylim=(0, 4))
 
-for reg in clg.regions:
+for reg in plotter.regions:
     reg.config.fill_args['facecolor'] = 'gray'
 
-clg.plot()
+plotter.plot()

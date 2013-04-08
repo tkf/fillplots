@@ -14,11 +14,11 @@ two = boundary(2)
 one.config.line_args = {'color': 'k', 'linestyle': 'dashed'}
 two.config.line_args = {'color': 'k', 'linestyle': 'dotted'}
 
-clg = Plotter([
+plotter = Plotter([
     [(sqrt, True), (one,), (two, True)],
     [(sqrt,), (lambda x: x, True), (two, True)],
     [(lambda x: x * (4 - x) / 2, True),
      (two,)],
 ], xlim=(0, 4), ylim=(0, 4))
 
-clg.plot()
+plotter.plot()

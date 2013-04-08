@@ -17,9 +17,9 @@ class TestExamples(unittest.TestCase):
         self.ns = ns = {}
         filename = os.path.join(self.root_path, name)
         execfile(filename, ns)
-        self.clg = clg = ns['clg']
-        self.config = clg.config
-        self.ax = clg.config.ax
+        self.plotter = plotter = ns['plotter']
+        self.config = plotter.config
+        self.ax = plotter.config.ax
 
     def assert_number_of_lines(self, num):
         lines = self.ax.get_lines()
