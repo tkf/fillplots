@@ -1,18 +1,14 @@
-Welcome to fillplots's documentation!
-=====================================
+.. automodule:: fillplots
 
-Contents:
+More resources
+==============
 
 .. toctree::
    :maxdepth: 2
 
+   api
    examples
-
-
-Indices and tables
-==================
 
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
-

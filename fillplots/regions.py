@@ -20,11 +20,29 @@ def center_of_mass(masses, coordinates):
     return com
 
 
-class Region(Configurable):
+class BaseRegion(Configurable):
 
     def __init__(self, config, ineqs):
-        super(Region, self).__init__(config)
+        super(BaseRegion, self).__init__(config)
         self.inequalities = [to_inequality(self.config, iq) for iq in ineqs]
+        """
+        List of :class:`.BaseInequality` instances.
+        """
+
+    def plot_boundaries(self):
+        """
+        Plot boundaries.
+        """
+        for ineq in self.inequalities:
+            ineq.boundary.plot_boundary()
+
+    def plot_region(self):
+        """
+        Plot this region.
+        """
+
+
+class Region(BaseRegion):
 
     def _get_xlim(self):
         (xmin, xmax) = self.config.xlim
@@ -70,10 +88,6 @@ class Region(Configurable):
             add_mask(lower, reverse)
         return (lower, upper)
 
-    def plot_boundaries(self):
-        for ineq in self.inequalities:
-            ineq.boundary.plot_boundary()
-
     def plot_region(self):
         num = self.config.num_boundary_samples
         xs = numpy.linspace(*self._get_xlim(), num=num)
@@ -114,7 +128,7 @@ class Region(Configurable):
 
     def mass_center(self):
         """
-        Mass nad center of mass.
+        Mass and center of mass.
         """
         num = self.config.num_com_samples
         xs = numpy.linspace(*self._get_xlim(), num=num)
@@ -220,10 +234,10 @@ def annotate_regions(regions, text,
 
     Put only one annotation for each contiguous group of regions.
 
-    :type regions: [Region]
-    :arg  regions:
+    :type regions: list of :class:`.BaseRegion`
+    :arg  regions: These regions are annotated with the same text.
     :type    text: str
-    :arg     text:
+    :arg     text: Annotation text.
 
     Other keywords are passed to :meth:`matplotlib.axes.Axes.text`.
 

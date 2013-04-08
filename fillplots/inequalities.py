@@ -13,6 +13,9 @@ class BaseInequality(Configurable):
         if isinstance(data, bclass):
             assert domain is None
             self.boundary = data
+            """
+            An instance of :class:`.BaseBoundary` instance.
+            """
         else:
             self.boundary = bclass(self.config, data, domain=domain)
         self.less = less
@@ -23,6 +26,11 @@ class BaseInequality(Configurable):
             kwds['boundary_color'] = line.get_color()
             break
         return kwds
+
+    def plot_positive_direction(self):
+        """
+        Plot direction that makes LHS of the inequality positive.
+        """
 
 
 class YFunctionInequality(BaseInequality):

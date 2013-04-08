@@ -9,6 +9,11 @@ class BaseBoundary(Configurable):
         super(BaseBoundary, self).__init__(config)
         self._domain = domain
 
+    def plot_boundary(self):
+        """
+        Plot this boundary.
+        """
+
 
 class YFunctionBoundary(BaseBoundary):
 
@@ -54,5 +59,26 @@ def to_boundary(config, obj):
         return XConstBoundary(config, *obj)
 
 
-def boundary(*obj):
-    return to_boundary(None, obj)
+def boundary(function_or_number, domain=None):
+    """
+    Boundary factory function.
+
+    :type function_or_number: callable or number
+    :arg  function_or_number:
+        If it is a callable, it is assumed to be a function that maps
+        x to y.  If it is a number, the boundary is a straight line
+        specified by `x = <number>`.
+
+    :type domain: (number, number) or None
+    :arg  domain:
+        The boundary is defined on this domain.  If it is None, the
+        boundary is defined for any real number.  If the argument
+        `function_or_number` is a callable, the domain is on
+        x-axis.  If `function_or_number` is a number, the domain is
+        on y-axis.
+
+    :rtype: :class:`.BaseBoundary`
+    :return: An instance of :class:`.BaseBoundary` subclass.
+
+    """
+    return to_boundary(None, (function_or_number, domain))

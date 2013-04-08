@@ -7,16 +7,84 @@ from .utils.chainstruct import Struct
 
 class Config(Struct):
 
+    """
+    Configuration interface.
+
+    See also :class:`.Struct`, which is a parent class of this class.
+
+    """
+
     # Should be renamed to "Resource?"
 
     def __init__(self, *args, **kwds):
         # FIXME: write arguments explicitly
+
         self.line_args = {}
+        """
+        Arguments passed to |plot| or |axvline|.
+
+        Default is {}.
+
+        .. |plot| replace:: :meth:`matplotlib.axes.Axes.plot`
+        .. |axvline| replace:: :meth:`matplotlib.axes.Axes.axvline`
+
+        """
+
         self.fill_args = {}
+        """
+        Arguments passed to :meth:`matplotlib.axes.Axes.fill_between`.
+
+        It can take additional keyword argument `autocolor`, which is
+        not defined in matplotlib.  `autocolor` can be used to set
+        `facecolor` and `edgecolor` to the same color.  If `facecolor`
+        is specified, it is used.  Otherwise, the color is generated
+        from :attr:`fill_color_cycle`.  The reason to add this
+        argument is because it looks like that there is no good way to
+        eliminate edge color natively by matplotlib [1]_.
+
+        Default is {}.
+
+        .. [1] See:
+           http://stackoverflow.com/questions/14143092/
+           http://permalink.gmane.org/gmane.comp.python.matplotlib.general/996
+
+        """
+
         self.num_boundary_samples = 1000
+        """
+        Number of points to be used to draw boundaries.
+
+        Default is 1000.
+
+        """
+
         self.num_com_samples = 50
+        """
+        Number of points to be used to estimate center of mass of region.
+
+        Default is 50.
+
+        """
+
         self.num_direction_arrows = 5
+        """
+        Number of arrows per boundary to indicate positive directions.
+
+        Default is 5.  It is used by |plot_positive_direction| etc.
+
+        .. |plot_positive_direction| replace::
+           :meth:`fillplots.api.Plotter.plot_positive_direction`
+
+        """
+
         self.direction_arrows_size = 0.03
+        """
+        Size of direction arrow as a ratio to axis length.
+
+        Default is 0.03.  See also :attr:`num_direction_arrows`.
+
+        """
+
         super(Config, self).__init__(*args, **kwds)
 
         self.lines = []
@@ -48,18 +116,6 @@ class Config(Struct):
     def fill_between(self, *args, **kwds):
         """
         Configurable :meth:`matplotlib.axes.Axes.fill_between`.
-
-        It can take additional keyword argument `autocolor`, which is
-        not defined in matplotlib.  It looks like there is no good way
-        to eliminate edge color natively by matplotlib [1]_.  `autocolor`
-        can be used to set `facecolor` and `edgecolor` to the same color.
-        If `facecolor` is specified, it is used.  Otherwise, the color is
-        generated from :attr:`fill_color_cycle`.
-
-        .. [1] See:
-           http://stackoverflow.com/questions/14143092/
-           http://permalink.gmane.org/gmane.comp.python.matplotlib.general/996
-
         """
         kwds.update(self.fill_args)
         if kwds.pop('autocolor', False):
@@ -107,3 +163,6 @@ class Configurable(object):
 
     def __init__(self, baseconfig):
         self.config = Config(baseconfig)
+        """
+        An instance of :class:`.Config`.
+        """
