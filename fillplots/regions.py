@@ -20,11 +20,14 @@ def center_of_mass(masses, coordinates):
     return com
 
 
-class Region(Configurable):
+class BaseRegion(Configurable):
 
     def __init__(self, config, ineqs):
-        super(Region, self).__init__(config)
+        super(BaseRegion, self).__init__(config)
         self.inequalities = [to_inequality(self.config, iq) for iq in ineqs]
+
+
+class Region(BaseRegion):
 
     def _get_xlim(self):
         (xmin, xmax) = self.config.xlim
@@ -114,7 +117,7 @@ class Region(Configurable):
 
     def mass_center(self):
         """
-        Mass nad center of mass.
+        Mass and center of mass.
         """
         num = self.config.num_com_samples
         xs = numpy.linspace(*self._get_xlim(), num=num)

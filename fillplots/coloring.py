@@ -36,6 +36,9 @@ class Coloring(Configurable):
         self.regions = [to_region(self.config, reg) for reg in regions]
 
     def plot(self):
+        """
+        Plot regions and boundaries.
+        """
         self.plot_boundaries()
         self.plot_regions()
 
@@ -43,12 +46,18 @@ class Coloring(Configurable):
         return uniq(iq.boundary for iq in self._get_inequalities())
 
     def plot_boundaries(self):
+        """
+        Plot boundaries.
+        """
         # FIXME: option to draw only relevant boundaries
         for boundary in self._get_boundaries():
             boundary.plot_boundary()
         self.config.set_lim()
 
     def plot_regions(self):
+        """
+        Plot regions.
+        """
         for region in self.regions:
             region.plot_region()
         self.config.set_lim()
@@ -58,5 +67,8 @@ class Coloring(Configurable):
         return ineqs
 
     def plot_positive_direction(self):
+        """
+        Plot direction that makes LHS of the inequality positive.
+        """
         for iq in self._get_inequalities():
             iq.plot_positive_direction()

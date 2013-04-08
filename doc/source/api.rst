@@ -1,7 +1,20 @@
 fillplots API
 =============
 
-.. autofunction:: fillplots.Plotter
+.. autoclass:: fillplots.Plotter
+   :inherited-members:
 .. autofunction:: fillplots.plot_regions
 .. autofunction:: fillplots.boundary
 .. autofunction:: fillplots.annotate_regions
+
+
+Internal classes
+----------------
+
+These classes are not meant to initialized from outside of this library.
+But you can access their instance via :class:`Plotter` and call their
+methods.
+
+.. autoclass:: fillplots.boundaries.BaseBoundary
+.. autoclass:: fillplots.inequalities.BaseInequality
+.. autoclass:: fillplots.regions.BaseRegion

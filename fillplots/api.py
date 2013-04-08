@@ -91,12 +91,20 @@ def plot_regions(regions, *args, **kwds):
     """
     Create :class:`Plotter` object and call plot function of it.
 
+    All arguments are passed to :class:`Plotter`.
+
+    """
+    # FIXME: Passing ax to plot functions is not implemented:
+    """
     :type ax: :class:`matplotlib.axes.Axes`
     :arg  ax: Inequalities are drawn on this axes if given.
 
+    Other arguments are passed to :class:`Plotter`.
     """
     plotkwds = {}
     if 'ax' in kwds:
+        raise NotImplementedError(
+            'Passing ax to plot functions is not implemented')
         plotkwds['ax'] = kwds.pop('ax')
     plotter = Plotter(regions, *args, **kwds)
     plotter.plot(**plotkwds)
