@@ -2,6 +2,7 @@ import itertools
 
 import numpy
 
+from .utils.py3compat import reduce
 from .core import Configurable
 from .inequalities import to_inequality, YFunctionInequality, XConstInequality
 

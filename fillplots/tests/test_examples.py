@@ -1,10 +1,11 @@
 import os
 import operator
 import unittest
+from ..utils.py3compat import execfile
 
 
 def mapcall(name, iterative):
-    return map(operator.methodcaller(name), iterative)
+    return list(map(operator.methodcaller(name), iterative))
 
 
 class TestExamples(unittest.TestCase):
