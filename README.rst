@@ -25,6 +25,11 @@ a piece of pie.
 
 See documentation_ and examples_ for more information.
 
+You can install ``fillplots`` from PyPI_::
+
+  pip install fillplots
+
+
 License
 -------
 
