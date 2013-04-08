@@ -18,9 +18,8 @@ a piece of pie.
 
 >>> from fillplots import plot_regions
 >>> plot_regions([
-...     [(lambda x: (1.0 - x ** 2) ** 0.5,),
-...      (lambda x: 0.5 * x,),
-...      (lambda x: 2.0 * x, True)]
+...     [(lambda x: (1.0 - x ** 2) ** 0.5, True),
+...      (lambda x: x,)]
 ... ], xlim=(0, 1), ylim=(0, 1))
 <fillplots.api.Plotter object at 0x...>
 
