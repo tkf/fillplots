@@ -164,3 +164,6 @@ class Configurable(object):
 
     def __init__(self, baseconfig):
         self.config = Config(baseconfig)
+        """
+        An instance of :class:`.Config`.
+        """

@@ -22,6 +22,7 @@ methods.
    fillplots.regions.BaseRegion
    :parts: 1
 
+.. autoclass:: fillplots.core.Configurable
 .. autoclass:: fillplots.boundaries.BaseBoundary
 .. autoclass:: fillplots.inequalities.BaseInequality
 .. autoclass:: fillplots.regions.BaseRegion
