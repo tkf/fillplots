@@ -26,6 +26,18 @@ class BaseRegion(Configurable):
         super(BaseRegion, self).__init__(config)
         self.inequalities = [to_inequality(self.config, iq) for iq in ineqs]
 
+    def plot_boundaries(self):
+        """
+        Plot boundaries.
+        """
+        for ineq in self.inequalities:
+            ineq.boundary.plot_boundary()
+
+    def plot_region(self):
+        """
+        Plot this region.
+        """
+
 
 class Region(BaseRegion):
 
@@ -72,10 +84,6 @@ class Region(BaseRegion):
             add_mask(upper, reverse)
             add_mask(lower, reverse)
         return (lower, upper)
-
-    def plot_boundaries(self):
-        for ineq in self.inequalities:
-            ineq.boundary.plot_boundary()
 
     def plot_region(self):
         num = self.config.num_boundary_samples

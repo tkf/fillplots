@@ -24,6 +24,11 @@ class BaseInequality(Configurable):
             break
         return kwds
 
+    def plot_positive_direction(self):
+        """
+        Plot direction that makes LHS of the inequality positive.
+        """
+
 
 class YFunctionInequality(BaseInequality):
 

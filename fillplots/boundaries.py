@@ -9,6 +9,11 @@ class BaseBoundary(Configurable):
         super(BaseBoundary, self).__init__(config)
         self._domain = domain
 
+    def plot_boundary(self):
+        """
+        Plot this boundary.
+        """
+
 
 class YFunctionBoundary(BaseBoundary):
 
