@@ -43,7 +43,10 @@ class BaseRegion(Configurable):
         """
 
 
-class Region(BaseRegion):
+class ExplicitXRegion(BaseRegion):
+
+    lower_agg = None
+    upper_agg = None
 
     def _get_xlim(self):
         (xmin, xmax) = self.config.xlim
@@ -73,8 +76,8 @@ class Region(BaseRegion):
                 return lambda x: numpy.ones_like(x) * lim
 
         (ymin, ymax) = self.config.ylim
-        return (make_func(lower_fs, ymin, numpy.min),
-                make_func(upper_fs, ymax, numpy.max))
+        return (make_func(lower_fs, ymin, self.lower_agg),
+                make_func(upper_fs, ymax, self.upper_agg))
 
     def _y_lower_upper(self, xs):
         (lower_f, upper_f) = self._y_funcs()
@@ -178,13 +181,30 @@ class Region(BaseRegion):
     def contiguous_regions(self):
         regions = []
         for (x0, x1) in self.contiguous_domains():
-            regions.append(Region(
+            regions.append(self.__class__(
                 self.config,
                 self.inequalities + [(x0,), (x1, True)]))
         return regions
 
 
-to_region = Region
+class OrRegion(ExplicitXRegion):
+
+    lower_agg = staticmethod(numpy.min)
+    upper_agg = staticmethod(numpy.max)
+
+
+class AndRegion(ExplicitXRegion):
+
+    lower_agg = staticmethod(numpy.max)
+    upper_agg = staticmethod(numpy.min)
+
+
+def to_region(config, obj):
+    if isinstance(obj, BaseRegion):
+        # FIXME: should I care other cases?
+        obj.config._set_base(config)
+        return obj
+    return OrRegion(config, obj)  # Make it configurable to use AndRegion?
 
 
 def mindist(ps, qs):
