@@ -199,6 +199,20 @@ class AndRegion(ExplicitXRegion):
     upper_agg = staticmethod(numpy.min)
 
 
+class MixInPlaceHolder(object):
+
+    def __init__(self, obj):
+        super(MixInPlaceHolder, self).__init__(None, obj)
+
+
+class Or(MixInPlaceHolder, OrRegion):
+    pass
+
+
+class And(MixInPlaceHolder, AndRegion):
+    pass
+
+
 def to_region(config, obj):
     if isinstance(obj, BaseRegion):
         # FIXME: should I care other cases?

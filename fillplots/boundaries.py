@@ -26,8 +26,8 @@ class YFunctionBoundary(BaseBoundary):
             return self._func(xs)
         xs = numpy.ma.array(xs)
         (xmin, xmax) = self._domain
-        xs.mask = xs.mask | xs < xmin
-        xs.mask = xs.mask | xs > xmax
+        xs.mask = numpy.ma.mask_or(xs.mask, xs < xmin)
+        xs.mask = numpy.ma.mask_or(xs.mask, xs > xmax)
         return numpy.ma.array(self._func(xs), mask=xs.mask)
 
     def plot_boundary(self):

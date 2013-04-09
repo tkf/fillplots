@@ -49,7 +49,7 @@ See the COPYING for more information.
 
 from .api import *
 from .boundaries import boundary
-from .regions import annotate_regions
+from .regions import And, Or, annotate_regions
 
 __version__ = '0.0.2.dev0'
 __author__ = 'Takafumi Arakaki'
