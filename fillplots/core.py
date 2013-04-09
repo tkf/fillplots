@@ -94,7 +94,7 @@ class Config(Struct):
             #        config (and then base config is set afterwards).
 
 
-class ConfiguredMPL(Struct):
+class ConfiguredAxes(Struct):
 
     """
     Configured matplotlib methods.
@@ -111,7 +111,7 @@ class ConfiguredMPL(Struct):
     """
 
     def __init__(self, config):
-        super(ConfiguredMPL, self).__init__(config)
+        super(ConfiguredAxes, self).__init__(config)
 
         self.lines = []
         """
@@ -193,7 +193,7 @@ class Configurable(object):
 
     def __init__(self, baseconfig):
         self._config = Config(baseconfig)
-        self.cax = ConfiguredMPL(self._config)
+        self.cax = ConfiguredAxes(self._config)
 
     @property
     def config(self):
