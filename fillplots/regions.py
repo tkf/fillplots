@@ -7,13 +7,6 @@ from .core import Configurable
 from .inequalities import to_inequality, YFunctionInequality, XConstInequality
 
 
-def add_mask(arr, mask):
-    if isinstance(arr.mask, numpy.ndarray):
-        arr.mask[mask] = True
-    else:
-        arr.mask = mask
-
-
 def center_of_mass(masses, coordinates):
     x = numpy.asarray(coordinates, dtype=float)
     m = numpy.asarray(masses, dtype=float)
@@ -43,7 +36,10 @@ class BaseRegion(Configurable):
         """
 
 
-class Region(BaseRegion):
+class ExplicitXRegion(BaseRegion):
+
+    lower_agg = None
+    upper_agg = None
 
     def _get_xlim(self):
         (xmin, xmax) = self.config.xlim
@@ -73,8 +69,8 @@ class Region(BaseRegion):
                 return lambda x: numpy.ones_like(x) * lim
 
         (ymin, ymax) = self.config.ylim
-        return (make_func(lower_fs, ymin, numpy.min),
-                make_func(upper_fs, ymax, numpy.max))
+        return (make_func(lower_fs, ymin, self.lower_agg),
+                make_func(upper_fs, ymax, self.upper_agg))
 
     def _y_lower_upper(self, xs):
         (lower_f, upper_f) = self._y_funcs()
@@ -85,8 +81,8 @@ class Region(BaseRegion):
         eps = (ymax - ymin) * 1e-5
         reverse = lower - eps > upper
         if numpy.any(reverse):
-            add_mask(upper, reverse)
-            add_mask(lower, reverse)
+            upper.mask = numpy.ma.mask_or(upper.mask, reverse)
+            lower.mask = numpy.ma.mask_or(lower.mask, reverse)
         return (lower, upper)
 
     def plot_region(self):
@@ -178,13 +174,48 @@ class Region(BaseRegion):
     def contiguous_regions(self):
         regions = []
         for (x0, x1) in self.contiguous_domains():
-            regions.append(Region(
+            regions.append(self.__class__(
                 self.config,
                 self.inequalities + [(x0,), (x1, True)]))
         return regions
 
 
-to_region = Region
+class SameDirOrRegion(ExplicitXRegion):
+
+    """
+    It is like `or`, but use `and` to bundle inequalities together.
+    """
+
+    lower_agg = staticmethod(numpy.ma.min)
+    upper_agg = staticmethod(numpy.ma.max)
+
+
+class AndRegion(ExplicitXRegion):
+
+    lower_agg = staticmethod(numpy.ma.max)
+    upper_agg = staticmethod(numpy.ma.min)
+
+
+class MixInPlaceHolder(object):
+
+    def __init__(self, obj):
+        super(MixInPlaceHolder, self).__init__(None, obj)
+
+
+class SDOr(MixInPlaceHolder, SameDirOrRegion):
+    pass
+
+
+class And(MixInPlaceHolder, AndRegion):
+    pass
+
+
+def to_region(config, obj):
+    if isinstance(obj, BaseRegion):
+        # FIXME: should I care other cases?
+        obj.config._set_base(config)
+        return obj
+    return AndRegion(config, obj)
 
 
 def mindist(ps, qs):

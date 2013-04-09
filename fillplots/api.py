@@ -47,7 +47,7 @@ class Plotter(coloring.Coloring):
     of the function.  It can be None, which means that this inequality
     is defined for any real number.
 
-    An example of specifying "*x^2 > 0* or *x + 5 > 0*" is:
+    An example of specifying "*x^2 > 0* and *x + 5 > 0*" is:
 
     >>> plotter = Plotter(
     ...     [  # Regions:

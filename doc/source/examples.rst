@@ -13,6 +13,12 @@ Two regions (``two.py``)
 .. plot:: examples/two.py
    :include-source:
 
+Specifying limits (``limits.py``)
+---------------------------------
+
+.. plot:: examples/limits.py
+   :include-source:
+
 Configure interface (``config_inheritance.py``)
 -----------------------------------------------
 
