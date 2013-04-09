@@ -22,13 +22,6 @@ def uniq(seq, key=lambda x: x):
             seen.add(k)
 
 
-def add_mask(arr, mask):
-    if isinstance(arr.mask, numpy.ndarray):
-        arr.mask[mask] = True
-    else:
-        arr.mask = mask
-
-
 class Coloring(Configurable):
 
     def __init__(self, config, regions):

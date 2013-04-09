@@ -7,13 +7,6 @@ from .core import Configurable
 from .inequalities import to_inequality, YFunctionInequality, XConstInequality
 
 
-def add_mask(arr, mask):
-    if isinstance(arr.mask, numpy.ndarray):
-        arr.mask[mask] = True
-    else:
-        arr.mask = mask
-
-
 def center_of_mass(masses, coordinates):
     x = numpy.asarray(coordinates, dtype=float)
     m = numpy.asarray(masses, dtype=float)
@@ -88,8 +81,8 @@ class ExplicitXRegion(BaseRegion):
         eps = (ymax - ymin) * 1e-5
         reverse = lower - eps > upper
         if numpy.any(reverse):
-            add_mask(upper, reverse)
-            add_mask(lower, reverse)
+            upper.mask = numpy.ma.mask_or(upper.mask, reverse)
+            lower.mask = numpy.ma.mask_or(lower.mask, reverse)
         return (lower, upper)
 
     def plot_region(self):
