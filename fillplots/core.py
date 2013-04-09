@@ -87,12 +87,42 @@ class Config(Struct):
 
         super(Config, self).__init__(*args, **kwds)
 
-        self.lines = []
         if not hasattr(self, 'fill_color_cycle'):
             from .mplcolors import fill_color_list
             self.fill_color_cycle = itertools.cycle(fill_color_list())
             # FIXME: this does not work when initialized before the base
             #        config (and then base config is set afterwards).
+
+
+class ConfiguredAxes(Struct):
+
+    """
+    Configured matplotlib methods.
+
+    This class provides wrapper for methods provided by
+    :class:`matplotlib.axes.Axes`.  Arguments are pre-configured
+    by its upstream configurations (see: :class:`.Config`).
+
+    ..
+       This class is also a subclass of :class:`.Struct`, but changing
+       attribute of this class is not intended usage.  It is subclassed
+       in order to easily access parent configuration.
+
+    """
+
+    def __init__(self, config):
+        super(ConfiguredAxes, self).__init__(config)
+
+        self.lines = []
+        """
+        List of :class:`matplotlib.lines.Line2D`.
+
+        Unlike the lines you can get by |get_lines|, this list holds
+        only lines plotted via this instance.
+
+        .. |get_lines| replace:: :class:`matplotlib.axes.Axes.get_lines`
+
+        """
 
     @property
     def ax(self):
@@ -162,7 +192,24 @@ class Config(Struct):
 class Configurable(object):
 
     def __init__(self, baseconfig):
-        self.config = Config(baseconfig)
+        self._config = Config(baseconfig)
+        self.cax = ConfiguredAxes(self._config)
+
+    @property
+    def config(self):
         """
         An instance of :class:`.Config`.
+
+        You can't set this attribute (i.e., ``self.config = config`` raises
+        an error).  Use :meth:`config._set_base <.Struct._set_base>`
+        instead.
+
         """
+        return self._config
+
+    @property
+    def ax(self):
+        """
+        :meth:`matplotlib.axes.Axes` instance used by this plotter.
+        """
+        return self.cax.ax

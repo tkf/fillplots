@@ -22,7 +22,7 @@ class BaseInequality(Configurable):
 
     def get_errorbar_kwds(self):
         kwds = {}
-        for line in self.boundary.config.lines:
+        for line in self.boundary.cax.lines:
             kwds['boundary_color'] = line.get_color()
             break
         return kwds
@@ -38,9 +38,9 @@ class YFunctionInequality(BaseInequality):
     _boundaryclass = YFunctionBoundary
 
     def plot_positive_direction(self):
-        self.config.yerrorbar(self.boundary._masked_y, self.less,
-                              xlim=self.boundary._domain,
-                              **self.get_errorbar_kwds())
+        self.cax.yerrorbar(self.boundary._masked_y, self.less,
+                           xlim=self.boundary._domain,
+                           **self.get_errorbar_kwds())
 
 
 class XConstInequality(BaseInequality):
@@ -49,7 +49,7 @@ class XConstInequality(BaseInequality):
 
     def plot_positive_direction(self):
         func = lambda ys: self.x * numpy.ones_like(ys)
-        self.config.xerrorbar(func, self.less, **self.get_errorbar_kwds())
+        self.cax.xerrorbar(func, self.less, **self.get_errorbar_kwds())
 
 
 _IEQ_CLASSES = [YFunctionInequality, XConstInequality]
