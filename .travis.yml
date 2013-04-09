@@ -1,10 +1,15 @@
 language: python
+python:
+  - 2.6
+  - 2.7
+  - 3.2
+  - 3.3
 env:
-  - TOXENV=py26
-  - TOXENV=py27
-  - TOXENV=py32
-  - TOXENV=py33
+  global:
+    - PIP_USE_MIRRORS=t
 install:
-  - pip install --quiet --use-mirrors tox
+  # Numpy must be installed before matplotlib:
+  - pip install numpy
+  - pip install matplotlib pytest
 script:
-  - tox
+  - py.test
