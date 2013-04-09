@@ -97,6 +97,20 @@ class Config(Struct):
 
 class ConfiguredMPL(Struct):
 
+    """
+    Configured matplotlib methods.
+
+    This class provides wrapper for methods provided by
+    :class:`matplotlib.axes.Axes`.  Arguments are pre-configured
+    by its upstream configurations (see: :class:`.Config`).
+
+    ..
+       This class is also a subclass of :class:`.Struct`, but changing
+       attribute of this class is not intended usage.  It is subclassed
+       in order to easily access parent configuration.
+
+    """
+
     def __init__(self, config):
         super(ConfiguredMPL, self).__init__(config)
 
