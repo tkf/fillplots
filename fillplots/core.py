@@ -162,7 +162,16 @@ class Config(Struct):
 class Configurable(object):
 
     def __init__(self, baseconfig):
-        self.config = Config(baseconfig)
+        self._config = Config(baseconfig)
+
+    @property
+    def config(self):
         """
         An instance of :class:`.Config`.
+
+        You can't set this attribute (i.e., ``self.config = config`` raises
+        an error).  Use :meth:`config._set_base <.Struct._set_base>`
+        instead.
+
         """
+        return self._config
