@@ -93,7 +93,7 @@ class Region(BaseRegion):
         num = self.config.num_boundary_samples
         xs = numpy.linspace(*self._get_xlim(), num=num)
         (lower, upper) = self._y_lower_upper(xs)
-        self.config.fill_between(xs, lower, upper)
+        self.mpl.fill_between(xs, lower, upper)
 
     @property
     def endpoints(self):
@@ -246,7 +246,7 @@ def annotate_regions(regions, text,
     # FIXME: More annotation styles.  Arrows?  Points with legend?
     regions = reduce(lambda x, r: x + r.contiguous_regions(), regions, [])
     for group in contiguous_groups(regions):
-        ax = group[0].config.ax
+        ax = group[0].mpl.ax
         (x, y) = center(group)
         ax.text(x, y, text,
                 horizontalalignment=horizontalalignment,

@@ -38,7 +38,7 @@ class YFunctionInequality(BaseInequality):
     _boundaryclass = YFunctionBoundary
 
     def plot_positive_direction(self):
-        self.config.yerrorbar(self.boundary._masked_y, self.less,
+        self.mpl.yerrorbar(self.boundary._masked_y, self.less,
                               xlim=self.boundary._domain,
                               **self.get_errorbar_kwds())
 
@@ -49,7 +49,7 @@ class XConstInequality(BaseInequality):
 
     def plot_positive_direction(self):
         func = lambda ys: self.x * numpy.ones_like(ys)
-        self.config.xerrorbar(func, self.less, **self.get_errorbar_kwds())
+        self.mpl.xerrorbar(func, self.less, **self.get_errorbar_kwds())
 
 
 _IEQ_CLASSES = [YFunctionInequality, XConstInequality]

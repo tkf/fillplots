@@ -34,7 +34,7 @@ class YFunctionBoundary(BaseBoundary):
         num = self.config.num_boundary_samples
         xs = numpy.linspace(*self.config.xlim, num=num)
         ys = self._masked_y(xs)
-        self.config.plot(xs, ys)
+        self.mpl.plot(xs, ys)
 
 
 class XConstBoundary(BaseBoundary):
@@ -44,7 +44,7 @@ class XConstBoundary(BaseBoundary):
         self.x = x
 
     def plot_boundary(self):
-        self.config.axvline(self.x)
+        self.mpl.axvline(self.x)
 
 
 def to_boundary(config, obj):

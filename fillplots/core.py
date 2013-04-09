@@ -94,6 +94,12 @@ class Config(Struct):
             # FIXME: this does not work when initialized before the base
             #        config (and then base config is set afterwards).
 
+
+class ConfiguredMPL(Struct):
+
+    def __init__(self, config):
+        super(ConfiguredMPL, self).__init__(config)
+
     @property
     def ax(self):
         from matplotlib import pyplot
@@ -163,6 +169,7 @@ class Configurable(object):
 
     def __init__(self, baseconfig):
         self._config = Config(baseconfig)
+        self.mpl = ConfiguredMPL(self._config)
 
     @property
     def config(self):
