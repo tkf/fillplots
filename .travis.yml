@@ -4,6 +4,12 @@ env:
   - TOXENV=py27
   - TOXENV=py32
   - TOXENV=py33
+matrix:
+  allow_failures:
+    - env:
+        - TOXENV=py32
+    - env:
+        - TOXENV=py33
 install:
   - pip install --quiet --use-mirrors tox
 script:
