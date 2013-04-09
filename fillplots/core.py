@@ -124,6 +124,15 @@ class ConfiguredAxes(Struct):
 
         """
 
+        self.collections = []
+        """
+        List of :class:`matplotlib.collections.Collection`.
+
+        Unlike :attr:`matplotlib.axes.Axes.collections`, this list holds
+        only collections created by this instance.
+
+        """
+
     @property
     def ax(self):
         from matplotlib import pyplot
@@ -157,7 +166,8 @@ class ConfiguredAxes(Struct):
                 # this does not work in some backend?:
                 linewidth=0,
             )
-        self.ax.fill_between(*args, **kwds)
+        collection = self.ax.fill_between(*args, **kwds)
+        self.collections.append(collection)
 
     def _errorbar(self, orientation, func, boundary_color=None, **kwds):
         kwds.setdefault('fmt', None)

@@ -86,3 +86,9 @@ class TestExamples(unittest.TestCase):
         self.run_example('divide_regions.py')
         from matplotlib import pyplot
         pyplot.draw()
+
+    def test_explicit_regions(self):
+        self.run_example('explicit_regions.py')
+        (r0, r1) = self.plotter.regions
+        assert len(r0.cax.collections) == 1
+        assert len(r1.cax.collections) == 1
