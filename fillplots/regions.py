@@ -180,7 +180,11 @@ class ExplicitXRegion(BaseRegion):
         return regions
 
 
-class OrRegion(ExplicitXRegion):
+class SameDirOrRegion(ExplicitXRegion):
+
+    """
+    It is like `or`, but use `and` to bundle inequalities together.
+    """
 
     lower_agg = staticmethod(numpy.ma.min)
     upper_agg = staticmethod(numpy.ma.max)
@@ -198,7 +202,7 @@ class MixInPlaceHolder(object):
         super(MixInPlaceHolder, self).__init__(None, obj)
 
 
-class Or(MixInPlaceHolder, OrRegion):
+class SDOr(MixInPlaceHolder, SameDirOrRegion):
     pass
 
 
@@ -211,7 +215,7 @@ def to_region(config, obj):
         # FIXME: should I care other cases?
         obj.config._set_base(config)
         return obj
-    return OrRegion(config, obj)  # Make it configurable to use AndRegion?
+    return AndRegion(config, obj)
 
 
 def mindist(ps, qs):
