@@ -30,11 +30,12 @@ def test_contiguous_groups_two_singles():
 
 
 def test_fill_domain():
+    from ..regions import SDOr
     dom12 = (1, 2)
     plotter = Plotter([
-        [(lambda x: (1.0 - (x - 1) ** 2) ** 0.5, True, dom12),
-         (lambda x: 0.5 * (x - 1), False, dom12),
-         (lambda x: 2.0 * (x - 1), True, dom12)],
+        SDOr([(lambda x: (1.0 - (x - 1) ** 2) ** 0.5, True, dom12),
+              (lambda x: 0.5 * (x - 1), False, dom12),
+              (lambda x: 2.0 * (x - 1), True, dom12)]),
     ])
     xs = numpy.linspace(0, 2, 5)
     (lower, upper) = plotter.regions[0]._y_lower_upper(xs)
