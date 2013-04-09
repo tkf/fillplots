@@ -51,6 +51,6 @@ from .api import *
 from .boundaries import boundary
 from .regions import And, SDOr, annotate_regions
 
-__version__ = '0.0.2'
+__version__ = '0.0.3.dev0'
 __author__ = 'Takafumi Arakaki'
 __license__ = 'BSD License'
