@@ -182,14 +182,14 @@ class ExplicitXRegion(BaseRegion):
 
 class OrRegion(ExplicitXRegion):
 
-    lower_agg = staticmethod(numpy.min)
-    upper_agg = staticmethod(numpy.max)
+    lower_agg = staticmethod(numpy.ma.min)
+    upper_agg = staticmethod(numpy.ma.max)
 
 
 class AndRegion(ExplicitXRegion):
 
-    lower_agg = staticmethod(numpy.max)
-    upper_agg = staticmethod(numpy.min)
+    lower_agg = staticmethod(numpy.ma.max)
+    upper_agg = staticmethod(numpy.ma.min)
 
 
 class MixInPlaceHolder(object):
