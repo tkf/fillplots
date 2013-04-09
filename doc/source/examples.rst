@@ -60,9 +60,3 @@ Annotations with discontinuous regions (``divide_regions.py``)
 
 .. plot:: examples/divide_regions.py
    :include-source:
-
-Explicitly specify ``And``/``Or`` for regions (``explicit_regions.py``)
------------------------------------------------------------------------
-
-.. plot:: examples/explicit_regions.py
-   :include-source:
