@@ -7,4 +7,4 @@ plotter = Plotter([
 ineq0.boundary.config.line_args['label'] = '$x ^ 2$'
 ineq1.boundary.config.line_args['label'] = '$x + 5$'
 plotter.plot()
-plotter.mpl.ax.legend(loc='best')
+plotter.ax.legend(loc='best')

@@ -206,3 +206,10 @@ class Configurable(object):
 
         """
         return self._config
+
+    @property
+    def ax(self):
+        """
+        :meth:`matplotlib.axes.Axes` instance used by this plotter.
+        """
+        return self.mpl.ax
