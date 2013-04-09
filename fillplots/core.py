@@ -193,7 +193,7 @@ class Configurable(object):
 
     def __init__(self, baseconfig):
         self._config = Config(baseconfig)
-        self.mpl = ConfiguredMPL(self._config)
+        self.cax = ConfiguredMPL(self._config)
 
     @property
     def config(self):
@@ -212,4 +212,4 @@ class Configurable(object):
         """
         :meth:`matplotlib.axes.Axes` instance used by this plotter.
         """
-        return self.mpl.ax
+        return self.cax.ax

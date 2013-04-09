@@ -55,7 +55,7 @@ class Coloring(Configurable):
         # FIXME: option to draw only relevant boundaries
         for boundary in self._get_boundaries():
             boundary.plot_boundary()
-        self.mpl.set_lim()
+        self.cax.set_lim()
 
     def plot_regions(self):
         """
@@ -63,7 +63,7 @@ class Coloring(Configurable):
         """
         for region in self.regions:
             region.plot_region()
-        self.mpl.set_lim()
+        self.cax.set_lim()
 
     def _get_inequalities(self):
         ineqs = (iq for region in self.regions for iq in region.inequalities)

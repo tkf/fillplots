@@ -20,7 +20,7 @@ class TestExamples(unittest.TestCase):
         execfile(filename, ns)
         self.plotter = plotter = ns['plotter']
         self.config = plotter.config
-        self.ax = plotter.mpl.ax
+        self.ax = plotter.cax.ax
 
     def assert_number_of_lines(self, num):
         lines = self.ax.get_lines()
