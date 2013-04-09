@@ -22,7 +22,7 @@ class BaseInequality(Configurable):
 
     def get_errorbar_kwds(self):
         kwds = {}
-        for line in self.boundary.config.lines:
+        for line in self.boundary.mpl.lines:
             kwds['boundary_color'] = line.get_color()
             break
         return kwds

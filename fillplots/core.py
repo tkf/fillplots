@@ -87,7 +87,6 @@ class Config(Struct):
 
         super(Config, self).__init__(*args, **kwds)
 
-        self.lines = []
         if not hasattr(self, 'fill_color_cycle'):
             from .mplcolors import fill_color_list
             self.fill_color_cycle = itertools.cycle(fill_color_list())
@@ -113,6 +112,7 @@ class ConfiguredMPL(Struct):
 
     def __init__(self, config):
         super(ConfiguredMPL, self).__init__(config)
+        self.lines = []
 
     @property
     def ax(self):
