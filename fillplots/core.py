@@ -112,7 +112,17 @@ class ConfiguredMPL(Struct):
 
     def __init__(self, config):
         super(ConfiguredMPL, self).__init__(config)
+
         self.lines = []
+        """
+        List of :class:`matplotlib.lines.Line2D`.
+
+        Unlike the lines you can get by |get_lines|, this list holds
+        only lines plotted via this instance.
+
+        .. |get_lines| replace:: :class:`matplotlib.axes.Axes.get_lines`
+
+        """
 
     @property
     def ax(self):
