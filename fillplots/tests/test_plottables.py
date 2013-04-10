@@ -6,13 +6,13 @@ from ..regions import annotate_regions
 from .testing import assert_point_in_collection
 
 
-class TestTwoRegionsAnnotation(PlottableTestCase):
+class TestAnnotationWithFlippedXLim(PlottableTestCase):
 
     def plot(self):
-        upper = boundary(lambda x: x + 1)
-        lower = boundary(lambda x: x - 1)
-        steeper = boundary(lambda x: 2 * x - 3)
-        flatter = boundary(lambda x: 0.5 * x + 2)
+        upper = boundary(lambda x: - x + 1)
+        lower = boundary(lambda x: - x - 1)
+        steeper = boundary(lambda x: 1.5 * - x - 1)
+        flatter = boundary(lambda x: 0.7 * - x + 1)
         self.plotter = plotter = Plotter([
             [(upper, True),
              (lower,),
@@ -23,13 +23,15 @@ class TestTwoRegionsAnnotation(PlottableTestCase):
              (steeper,),
              (flatter,)
             ],
-        ], xlim=(0, 6), ylim=(0, 6))
+        ], xlim=(0, -6), ylim=(0, 6))
+
         plotter.plot()
+
         annotate_regions(plotter.regions[:1], 'Low region')
         annotate_regions(plotter.regions[1:], 'High region')
 
         ax = plotter.ax
-        self.points = [(5, 5), (3, 3.7), (3, 3.2), (3, 2.5)]
+        self.points = [(-5, 5), (-1.5, 2.2), (-1.5, 1.5), (-1.5, 0.7)]
         for (i, (x, y)) in enumerate(self.points):
             ax.plot(x, y, 'o', label='p{0}'.format(i))
         ax.legend(loc='upper left')
