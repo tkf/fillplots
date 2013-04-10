@@ -8,9 +8,11 @@ from .inequalities import to_inequality, YFunctionInequality, XConstInequality
 
 
 def center_of_mass(masses, coordinates):
-    x = numpy.asarray(coordinates, dtype=float)
-    m = numpy.asarray(masses, dtype=float)
-    com = numpy.dot(m, x) / m.sum()
+    x = numpy.ma.array(coordinates, dtype=float)
+    m = numpy.ma.array(masses, dtype=float)
+    # ``m.dot(x)`` does *not* work here.
+    # See: https://github.com/numpy/numpy/issues/3219
+    com = numpy.ma.dot(m, x) / m.sum()
     return com
 
 
@@ -131,7 +133,7 @@ class ExplicitXRegion(BaseRegion):
         xs = numpy.linspace(*self._get_xlim(), num=num)
         (lower, upper) = self._y_lower_upper(xs)
         height = (upper - lower)
-        coordinates = numpy.array([xs, (upper + lower) / 2.0]).T
+        coordinates = numpy.ma.array([xs, (upper + lower) / 2.0]).T
         return (height.sum(), center_of_mass(height, coordinates))
 
     def contiguous_domains(self):

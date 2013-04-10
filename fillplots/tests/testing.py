@@ -1,3 +1,4 @@
+import unittest
 from contextlib import contextmanager
 
 
@@ -42,3 +43,18 @@ def assert_point_in_collection(collection, x, y, negate=False):
         assert not inside
     else:
         assert inside
+
+
+class PlottableTestCase(unittest.TestCase):
+
+    """
+    Test case that can be executed to show plot.
+    """
+
+    def setUp(self):
+        self.plot()
+
+    def plot(self):
+        """
+        Set :attr:`plotter` and run plot function.
+        """
