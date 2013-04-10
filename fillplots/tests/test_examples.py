@@ -1,7 +1,9 @@
 import os
 import operator
 import unittest
+
 from ..utils.py3compat import execfile
+from .testing import assert_point_in_collection
 
 
 def mapcall(name, iterative):
@@ -92,3 +94,10 @@ class TestExamples(unittest.TestCase):
         (r0, r1) = self.plotter.regions
         assert len(r0.cax.collections) == 1
         assert len(r1.cax.collections) == 1
+
+        c0 = r0.cax.collections[0]
+        c1 = r1.cax.collections[0]
+        assert_point_in_collection(c0, 0 + 0.5, 0.5)
+        assert_point_in_collection(c1, 1 + 0.5, 0.5)
+        assert_point_in_collection(c0, 0 + 1.0, 1.0, negate=True)
+        assert_point_in_collection(c1, 1 + 1.0, 1.0)
