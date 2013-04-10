@@ -26,7 +26,7 @@ class Plotter(coloring.Coloring):
 
     :type config: str or Config
     :arg  config:
-        ``'default'``, ``'none'`` or a :class:`core.Config` object.
+        ``'default'``, ``'none'`` or a :class:`.Config` object.
 
     :type xlim: (int, int)
     :arg  xlim: Limit for x-axis.  Default is ``(-10, 10)``.
