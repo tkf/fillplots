@@ -133,7 +133,7 @@ class ExplicitXRegion(BaseRegion):
         xs = numpy.linspace(*self._get_xlim(), num=num)
         (lower, upper) = self._y_lower_upper(xs)
         height = (upper - lower)
-        coordinates = numpy.array([xs, (upper + lower) / 2.0]).T
+        coordinates = numpy.ma.array([xs, (upper + lower) / 2.0]).T
         return (height.sum(), center_of_mass(height, coordinates))
 
     def contiguous_domains(self):
