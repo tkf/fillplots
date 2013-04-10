@@ -1,6 +1,7 @@
 from .testing import PlottableTestCase
 
 from ..api import Plotter
+from ..boundaries import boundary
 from ..regions import annotate_regions
 from .testing import assert_point_in_collection
 
@@ -8,10 +9,10 @@ from .testing import assert_point_in_collection
 class TestTwoRegionsAnnotation(PlottableTestCase):
 
     def plot(self):
-        upper = lambda x: x + 1
-        lower = lambda x: x - 1
-        steeper = lambda x: 2 * x - 3
-        flatter = lambda x: 0.5 * x + 2
+        upper = boundary(lambda x: x + 1)
+        lower = boundary(lambda x: x - 1)
+        steeper = boundary(lambda x: 2 * x - 3)
+        flatter = boundary(lambda x: 0.5 * x + 2)
         self.plotter = plotter = Plotter([
             [(upper, True),
              (lower,),
