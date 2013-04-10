@@ -4,6 +4,18 @@ from ..api import Plotter
 from ..regions import contiguous_groups
 
 
+def test_get_xlim_when_flipped():
+    plotter = Plotter([
+        [(-7,),                 # x > -7
+         (-5,),                 # x > -5
+         (5, True),             # x < 5
+         (7, True),             # x < 7
+        ],
+    ], xlim=(10, -10))
+    (region,) = plotter.regions
+    assert region._get_xlim() == (-5, 5)
+
+
 def test_contiguous_groups_one():
     linear = lambda a: lambda x: a * x
     sandwich = lambda a, b: [(linear(a), False), (linear(b), True)]

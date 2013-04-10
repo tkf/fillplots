@@ -45,6 +45,8 @@ class ExplicitXRegion(BaseRegion):
 
     def _get_xlim(self):
         (xmin, xmax) = self.config.xlim
+        if xmin > xmax:
+            (xmin, xmax) = (xmax, xmin)
         for ineq in self.inequalities:
             if isinstance(ineq, XConstInequality):
                 if ineq.less:
