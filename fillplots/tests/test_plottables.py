@@ -36,7 +36,7 @@ class TestAnnotationWithFlippedXLim(PlottableTestCase):
             ax.plot(x, y, 'o', label='p{0}'.format(i))
         ax.legend(loc='upper left')
 
-    def test(self):
+    def test_point_inside(self):
         (r0, r1) = self.plotter.regions
         (c0,) = r0.cax.collections
         (c1,) = r1.cax.collections
@@ -48,3 +48,9 @@ class TestAnnotationWithFlippedXLim(PlottableTestCase):
         assert_point_in_collection(c1, *self.points[2], negate=True)
         assert_point_in_collection(c0, *self.points[3])
         assert_point_in_collection(c1, *self.points[3], negate=True)
+
+    def test_annotations_are_in_region(self):
+        ax = self.plotter.ax
+        for (region, text) in zip(self.plotter.regions, ax.texts):
+            (collection,) = region.cax.collections
+            assert_point_in_collection(collection, *text.get_position())
