@@ -8,9 +8,11 @@ from .inequalities import to_inequality, YFunctionInequality, XConstInequality
 
 
 def center_of_mass(masses, coordinates):
-    x = numpy.asarray(coordinates, dtype=float)
-    m = numpy.asarray(masses, dtype=float)
-    com = numpy.dot(m, x) / m.sum()
+    x = numpy.ma.array(coordinates, dtype=float)
+    m = numpy.ma.array(masses, dtype=float)
+    # ``m.dot(x)`` does *not* work here.
+    # See: https://github.com/numpy/numpy/issues/3219
+    com = numpy.ma.dot(m, x) / m.sum()
     return com
 
 
